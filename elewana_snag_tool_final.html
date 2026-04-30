@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1f1d1a">
+<title>Elewana Snags</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1f1d1a;
+  --bg-alt: #2a2724;
+  --surface: #35302a;
+  --surface-hi: #423c34;
+  --ink: #f4efe6;
+  --ink-soft: #d9d1c3;
+  --muted: #8a8377;
+  --line: #4a453e;
+  --ochre: #d4924a;
+  --ochre-dark: #b8763a;
+  --forest: #7ea474;
+  --crimson: #d94a3d;
+  --amber: #e0b04a;
+  --sage: #8fa87d;
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.35);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: contain;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(212,146,74,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 100%, rgba(126,164,116,0.05) 0%, transparent 50%);
+}
+
+.serif { font-family: 'Fraunces', Georgia, serif; font-variation-settings: "opsz" 144; }
+
+/* ---------- APP LAYOUT ---------- */
+.app {
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: calc(88px + var(--safe-bottom));
+}
+
+/* ---------- HEADER ---------- */
+.header {
+  padding: calc(var(--safe-top) + 18px) 20px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: rgba(31,29,26,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 20;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.brand-mark {
+  width: 9px;
+  height: 9px;
+  background: var(--ochre);
+  border-radius: 50%;
+  align-self: center;
+}
+
+.brand-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.brand-sub {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.snag-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.snag-count .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--ochre);
+}
+
+.snag-count .num {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+/* ---------- VIEW TABS ---------- */
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 6px;
+  margin: 16px 16px 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  border-radius: 100px;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tab:hover { color: var(--ink-soft); }
+
+.tab.active {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.tab-badge {
+  background: var(--ochre);
+  color: var(--bg);
+  padding: 0 7px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  line-height: 16px;
+  text-align: center;
+}
+
+/* ---------- HERO / EMPTY STATE ---------- */
+.hero {
+  padding: 28px 20px 20px;
+  text-align: left;
+}
+
+.hero .kicker {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin: 0 0 10px;
+}
+
+.hero h1 em { font-style: italic; color: var(--ochre); }
+
+.hero p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 400px;
+}
+
+/* ---------- FILTER BAR (Home view) ---------- */
+.filter-bar {
+  padding: 16px 20px 0;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.chip {
+  padding: 8px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.12s;
+}
+
+.chip:hover { background: var(--surface-hi); }
+
+.chip.active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.chip .count {
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.65;
+}
+
+.chip.active .count { opacity: 0.55; }
+
+/* ---------- SNAG LIST ---------- */
+.list {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.snag-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.snag-card:hover { background: var(--surface-hi); }
+
+.snag-card.done { opacity: 0.55; }
+
+.snag-card.done .snag-title { text-decoration: line-through; text-decoration-thickness: 1px; }
+
+.snag-thumb {
+  width: 68px;
+  height: 68px;
+  border-radius: 6px;
+  background-color: var(--bg-alt);
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.snag-thumb-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+
+.snag-thumb-empty svg { width: 24px; height: 24px; }
+
+.snag-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: space-between;
+}
+
+.snag-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.snag-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.cat-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 14px;
+}
+
+.cat-maintenance { background: rgba(217,74,61,0.14); color: #f07867; border: 1px solid rgba(217,74,61,0.25); }
+.cat-service { background: rgba(224,176,74,0.14); color: var(--amber); border: 1px solid rgba(224,176,74,0.25); }
+.cat-idea { background: rgba(143,168,125,0.14); color: var(--sage); border: 1px solid rgba(143,168,125,0.25); }
+.cat-safety { background: rgba(212,146,74,0.18); color: var(--ochre); border: 1px solid rgba(212,146,74,0.3); }
+.cat-other { background: rgba(138,131,119,0.14); color: var(--ink-soft); border: 1px solid var(--line); }
+
+.priority-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.pri-low { background: var(--sage); }
+.pri-med { background: var(--amber); }
+.pri-high { background: var(--crimson); }
+
+.snag-dot { color: var(--muted); opacity: 0.5; }
+
+.empty {
+  padding: 48px 28px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  color: var(--ink);
+  font-size: 20px;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.empty p {
+  font-size: 14px;
+  margin: 0 0 20px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.empty-cta {
+  background: var(--ochre);
+  color: var(--bg);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+/* ---------- FAB (floating action button) ---------- */
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: calc(24px + var(--safe-bottom));
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--ochre);
+  color: var(--bg);
+  border: none;
+  box-shadow: 0 6px 20px rgba(212,146,74,0.4), 0 2px 4px rgba(0,0,0,0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  transition: transform 0.15s, background 0.15s;
+}
+
+.fab:active { transform: scale(0.94); background: #e0a063; }
+
+.fab svg { width: 28px; height: 28px; }
+
+@media (min-width: 540px) {
+  .fab { right: calc(50vw - 260px + 20px); }
+}
+
+/* ---------- NEW SNAG SHEET ---------- */
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 100;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sheet-overlay.visible { display: flex; }
+
+@media (min-width: 540px) {
+  .sheet-overlay { align-items: center; }
+}
+
+.sheet {
+  background: var(--bg-alt);
+  width: 100%;
+  max-width: 520px;
+  max-height: 92vh;
+  max-height: 92dvh;
+  overflow-y: auto;
+  border-radius: 20px 20px 0 0;
+  padding: 8px 0 calc(20px + var(--safe-bottom));
+  animation: slideUp 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (min-width: 540px) {
+  .sheet { border-radius: 20px; max-height: 85vh; margin: 20px; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0.5; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--line);
+  border-radius: 100px;
+  margin: 6px auto 12px;
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sheet-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.sheet-close {
+  background: var(--surface);
+  color: var(--ink-soft);
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sheet-field-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.cat-btn {
+  padding: 14px 12px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink-soft);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.12s;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.cat-btn svg { width: 22px; height: 22px; }
+
+.cat-btn.selected {
+  background: var(--surface-hi);
+  color: var(--ink);
+}
+
+.cat-btn.selected.c-maintenance { border-color: var(--crimson); box-shadow: 0 0 0 2px rgba(217,74,61,0.15); }
+.cat-btn.selected.c-service { border-color: var(--amber); box-shadow: 0 0 0 2px rgba(224,176,74,0.15); }
+.cat-btn.selected.c-idea { border-color: var(--sage); box-shadow: 0 0 0 2px rgba(143,168,125,0.15); }
+.cat-btn.selected.c-safety { border-color: var(--ochre); box-shadow: 0 0 0 2px rgba(212,146,74,0.15); }
+.cat-btn.selected.c-other { border-color: var(--ink-soft); }
+
+.pri-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.pri-btn {
+  padding: 11px 10px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink-soft);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.12s;
+}
+
+.pri-btn.selected.p-low { border-color: var(--sage); background: rgba(143,168,125,0.12); color: var(--ink); }
+.pri-btn.selected.p-med { border-color: var(--amber); background: rgba(224,176,74,0.12); color: var(--ink); }
+.pri-btn.selected.p-high { border-color: var(--crimson); background: rgba(217,74,61,0.12); color: var(--ink); }
+
+.sheet-select,
+.sheet-input,
+.sheet-textarea {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.sheet-select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238a8377' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+
+.sheet-input:focus,
+.sheet-select:focus,
+.sheet-textarea:focus { border-color: var(--ochre); }
+
+.sheet-textarea { min-height: 90px; resize: vertical; }
+
+.photo-slot {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.photo-add {
+  width: 82px;
+  height: 82px;
+  background: var(--surface);
+  border: 1.5px dashed var(--line);
+  border-radius: 10px;
+  color: var(--ochre);
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.photo-add:hover { border-color: var(--ochre); }
+
+.photo-add svg { width: 24px; height: 24px; }
+
+.photo-item {
+  width: 82px;
+  height: 82px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border: 1px solid var(--line);
+}
+
+.photo-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.75);
+  color: var(--ink);
+  border: none;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-foot {
+  padding: 0 20px;
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+}
+
+.btn-primary {
+  flex: 1;
+  background: var(--ochre);
+  color: var(--bg);
+  border: none;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.btn-primary:active { background: #e0a063; transform: scale(0.98); }
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---------- DETAIL VIEW ---------- */
+.detail-hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--bg-alt);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.detail-hero-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+
+.detail-hero-empty svg { width: 64px; height: 64px; opacity: 0.3; }
+
+.detail-photo-nav {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.detail-photo-nav .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(244,239,230,0.4);
+}
+
+.detail-photo-nav .dot.active { background: var(--ochre); }
+
+.detail-body {
+  padding: 20px;
+}
+
+.detail-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.detail-title {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.detail-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.detail-section {
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+
+.detail-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.detail-actions button { flex: 1; }
+
+.btn-danger {
+  background: transparent;
+  color: var(--crimson);
+  border: 1px solid rgba(217,74,61,0.3);
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---------- GM LIST / REPORT VIEW ---------- */
+.report-header {
+  padding: 24px 20px 16px;
+}
+
+.report-filter {
+  padding: 0 20px 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.report-filter .field {
+  flex: 1;
+}
+
+.report-prop-select {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238a8377' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+
+.report-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 0 20px 16px;
+}
+
+.report-stat {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.report-stat .v {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.report-stat .l {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.report-group {
+  padding: 0 20px 16px;
+}
+
+.report-group-head {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 16px 0 10px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 10px;
+}
+
+.report-group-head .cnt {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.report-actions {
+  padding: 20px;
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.report-actions button { flex: 1; }
+
+/* ---------- TOAST ---------- */
+.toast {
+  position: fixed;
+  bottom: calc(100px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--forest);
+  color: var(--ink);
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 90;
+  transition: opacity 0.25s, transform 0.25s;
+  box-shadow: var(--shadow-lg);
+}
+
+.toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- UTILS ---------- */
+.hidden { display: none !important; }
+
+.view { display: none; }
+.view.active { display: block; }
+
+@media print {
+  body, .app { background: white; color: black; }
+  .header, .fab, .tabs, .sheet-overlay, .toast, .report-actions, .detail-actions, .report-filter { display: none !important; }
+  .snag-card { break-inside: avoid; border-color: #ccc; background: white; color: black; }
+  .report-group-head { color: black; border-bottom-color: #ccc; }
+  .report-stat { background: white; border-color: #ccc; color: black; }
+  .cat-tag { border-width: 1px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <div>
+      <div class="brand-name">Snags</div>
+      <div class="brand-sub">Elewana · Field Log</div>
+    </div>
+  </div>
+  <div class="snag-count" id="syncBtn" onclick="openSyncSheet()" style="cursor:pointer;">
+    <span class="dot" id="syncDot" style="background: var(--muted);"></span>
+    <span id="syncLabel">Sync</span>
+  </div>
+  <div class="snag-count" style="margin-left: 8px;">
+    <span class="dot"></span>
+    <span>Open</span>
+    <span class="num" id="openCount">0</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" data-view="home" onclick="switchView('home')">
+    All Snags
+    <span class="tab-badge" id="allBadge">0</span>
+  </button>
+  <button class="tab" data-view="report" onclick="switchView('report')">
+    GM Report
+  </button>
+</div>
+
+<!-- ====== HOME VIEW ====== -->
+<div class="view active" id="homeView">
+
+  <div class="hero" id="homeHero">
+    <div class="kicker">Snag & Go</div>
+    <h1 class="serif">Spot it, <em>shoot it</em>,<br>send it on.</h1>
+    <p>Walk the property, snap issues or ideas, tag them to a GM. Exports as a clean list, kills the email chain.</p>
+  </div>
+
+  <div class="filter-bar" id="filterBar"></div>
+  <div class="list" id="list"></div>
+</div>
+
+<!-- ====== REPORT VIEW ====== -->
+<div class="view" id="reportView">
+
+  <div class="report-header">
+    <div class="kicker" style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ochre);font-weight:600;margin-bottom:8px;">GM Action List</div>
+    <h1 class="serif" style="font-family:'Fraunces',serif;font-weight:500;font-size:30px;line-height:1;letter-spacing:-0.025em;margin:0 0 8px;">One property, <em style="font-style:italic;color:var(--ochre);">one list</em>.</h1>
+    <p style="font-size:14px;color:var(--ink-soft);margin:0;">Pick a property to see every open snag grouped by category — ready to share or export.</p>
+  </div>
+
+  <div class="report-filter">
+    <div class="field">
+      <select class="report-prop-select" id="reportProp" onchange="renderReport()">
+        <option value="">All properties</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="report-stats">
+    <div class="report-stat"><div class="v" id="rs-total">0</div><div class="l">Total</div></div>
+    <div class="report-stat"><div class="v" id="rs-maint">0</div><div class="l">Maintenance</div></div>
+    <div class="report-stat"><div class="v" id="rs-high">0</div><div class="l">High pri</div></div>
+    <div class="report-stat"><div class="v" id="rs-open">0</div><div class="l">Open</div></div>
+  </div>
+
+  <div id="reportContent"></div>
+
+  <div class="report-actions">
+    <button class="btn-secondary" onclick="exportJson()">Export JSON</button>
+    <button class="btn-primary" onclick="exportReport()">Share / Print</button>
+  </div>
+</div>
+
+</div>
+
+<!-- ====== FAB ====== -->
+<button class="fab" id="fab" onclick="openNew()" aria-label="Add snag">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+    <circle cx="12" cy="13" r="4"/>
+  </svg>
+</button>
+
+<!-- ====== NEW SNAG SHEET ====== -->
+<div class="sheet-overlay" id="newSheet">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <h2 class="sheet-title" id="sheetTitle">New Snag</h2>
+      <button class="sheet-close" onclick="closeNew()">×</button>
+    </div>
+    <div class="sheet-body">
+
+      <div>
+        <div class="sheet-field-label">Photos <span style="text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400;">(tap to open camera)</span></div>
+        <div class="photo-slot" id="photoSlot">
+          <button class="photo-add" onclick="addPhoto()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Capture
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <div class="sheet-field-label">Category</div>
+        <div class="cat-grid" id="catGrid">
+          <button class="cat-btn c-maintenance" data-cat="maintenance">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            Maintenance
+          </button>
+          <button class="cat-btn c-service" data-cat="service">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Service
+          </button>
+          <button class="cat-btn c-idea" data-cat="idea">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+            Idea
+          </button>
+          <button class="cat-btn c-safety" data-cat="safety">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Safety
+          </button>
+          <button class="cat-btn c-other" data-cat="other">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            Other
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <div class="sheet-field-label">Property</div>
+        <select class="sheet-select" id="f-property">
+          <option value="">Select property…</option>
+          <option value="ACL">ACL · Arusha Coffee Lodge</option>
+          <option value="TMN">TMN · Tarangire Manor</option>
+          <option value="TTT">TTT · Tarangire Treetops</option>
+          <option value="SPC">SPC · Serengeti Pioneer Camp</option>
+          <option value="SMC">SMC · Serengeti Migration Camp</option>
+          <option value="TCA">TCA · The Coffee Lodge Arusha</option>
+          <option value="EKM">EKM · Elsa's Kopje Meru</option>
+          <option value="SRM">SRM · Sand River Mara</option>
+          <option value="EPC">EPC · Elewana Pioneer Camp</option>
+          <option value="LSC">LSC · Loisaba Star Beds</option>
+          <option value="KLZ">KLZ · Kilindi Zanzibar</option>
+          <option value="KHL">KHL · The Manor at Ngorongoro</option>
+          <option value="ACD">ACD · Arusha Coffee Day House</option>
+          <option value="LTC">LTC · Loisaba Tented Camp</option>
+          <option value="LSB">LSB · Loisaba Star Beds</option>
+          <option value="LLS">LLS · Loisaba Lodo Springs</option>
+        </select>
+      </div>
+
+      <div>
+        <div class="sheet-field-label">Location on property <span style="text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400;">(e.g. Tent 5, Main deck, Kitchen)</span></div>
+        <input type="text" class="sheet-input" id="f-location" placeholder="Where exactly?">
+      </div>
+
+      <div>
+        <div class="sheet-field-label">Priority</div>
+        <div class="pri-grid" id="priGrid">
+          <button class="pri-btn p-low" data-pri="low"><span class="priority-dot pri-low"></span>Low</button>
+          <button class="pri-btn p-med selected" data-pri="med"><span class="priority-dot pri-med"></span>Medium</button>
+          <button class="pri-btn p-high" data-pri="high"><span class="priority-dot pri-high"></span>High</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="sheet-field-label">Audit area <span style="text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400;">(optional)</span></div>
+        <select class="sheet-select" id="f-section">
+          <option value="">No tag</option>
+          <option value="Guest Transfers">Guest Transfers</option>
+          <option value="Lodge Arrival">Lodge Arrival</option>
+          <option value="Room">Room</option>
+          <option value="Lunch">Lunch</option>
+          <option value="Dinner">Dinner</option>
+          <option value="Breakfast">Breakfast</option>
+          <option value="Afternoon Tea">Afternoon Tea</option>
+          <option value="Guiding & Activities">Guiding & Activities</option>
+          <option value="Out of Camp F&B">Out of Camp F&B</option>
+          <option value="Bar Snacks & Pre-Dinner">Bar Snacks & Pre-Dinner</option>
+          <option value="Laundry">Laundry</option>
+          <option value="Turndown">Turndown</option>
+          <option value="Wake-up Call">Wake-up Call</option>
+          <option value="Boutique">Boutique</option>
+          <option value="Spa">Spa</option>
+          <option value="Wifi & Connectivity">Wifi & Connectivity</option>
+          <option value="Takeaway / Box">Takeaway / Box</option>
+          <option value="Check Out & Departure">Check Out & Departure</option>
+          <option value="Grounds & Miscellaneous">Grounds & Miscellaneous</option>
+        </select>
+      </div>
+
+      <div>
+        <div class="sheet-field-label">Describe it</div>
+        <input type="text" class="sheet-input" id="f-title" placeholder="Short title" style="margin-bottom:10px;">
+        <textarea class="sheet-textarea" id="f-notes" placeholder="What's the problem / idea? Any detail the GM should know."></textarea>
+      </div>
+
+    </div>
+    <div class="sheet-foot">
+      <button class="btn-secondary" onclick="closeNew()">Cancel</button>
+      <button class="btn-primary" onclick="saveSnag()" id="saveBtn">Save Snag</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== DETAIL SHEET ====== -->
+<div class="sheet-overlay" id="detailSheet" onclick="closeDetail()">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- ====== SYNC SHEET ====== -->
+<div class="sheet-overlay" id="syncSheet" onclick="closeSyncSheet()">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <h2 class="sheet-title">Sync</h2>
+      <button class="sheet-close" onclick="closeSyncSheet()">×</button>
+    </div>
+    <div class="sheet-body">
+
+      <div id="syncStatus" style="padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; font-size: 13px; color: var(--ink-soft); line-height: 1.5;">
+        Not connected. Paste your Web App URL below to enable sync.
+      </div>
+
+      <div>
+        <div class="sheet-field-label">Web App URL</div>
+        <input type="url" class="sheet-input" id="syncUrlInput"
+               placeholder="https://script.google.com/macros/s/.../exec"
+               style="font-size: 13px;">
+        <div style="font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.5;">
+          From your Apps Script deployment. See setup guide for how to create this.
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn-secondary" style="flex: 1;" onclick="clearSyncUrl()">Clear</button>
+        <button class="btn-primary" style="flex: 2;" onclick="saveSyncUrl()">Save URL</button>
+      </div>
+
+      <div style="border-top: 1px solid var(--line); padding-top: 18px;">
+        <div class="sheet-field-label">Sync now</div>
+        <p style="font-size: 13px; color: var(--ink-soft); margin: 0 0 12px;">
+          Push local changes to Google Sheet and pull any updates from the team.
+        </p>
+        <button class="btn-primary" style="width: 100%;" id="syncNowBtn" onclick="syncNow()">
+          <span id="syncNowLabel">Sync now</span>
+        </button>
+        <div id="syncLog" style="margin-top: 12px; font-size: 12px; color: var(--muted); line-height: 1.5;"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Saved</div>
+
+<!-- Hidden file input for imports -->
+<input type="file" id="importFile" accept=".json" class="hidden">
+
+<script>
+/* =====================================================================
+   DATA MODEL
+   ===================================================================== */
+const STORAGE_KEY = 'elewana_snags_v1';
+
+const PROPERTIES = [
+  { code: 'ACL', name: 'Arusha Coffee Lodge' },
+  { code: 'TMN', name: 'Tarangire Manor' },
+  { code: 'TTT', name: 'Tarangire Treetops' },
+  { code: 'SPC', name: 'Serengeti Pioneer Camp' },
+  { code: 'SMC', name: 'Serengeti Migration Camp' },
+  { code: 'TCA', name: 'The Coffee Lodge Arusha' },
+  { code: 'EKM', name: "Elsa's Kopje Meru" },
+  { code: 'SRM', name: 'Sand River Mara' },
+  { code: 'EPC', name: 'Elewana Pioneer Camp' },
+  { code: 'LSC', name: 'Loisaba Star Beds' },
+  { code: 'KLZ', name: 'Kilindi Zanzibar' },
+  { code: 'KHL', name: 'The Manor at Ngorongoro' },
+  { code: 'ACD', name: 'Arusha Coffee Day House' },
+  { code: 'LTC', name: 'Loisaba Tented Camp' },
+  { code: 'LSB', name: 'Loisaba Star Beds' },
+  { code: 'LLS', name: 'Loisaba Lodo Springs' },
+];
+
+const CATEGORIES = {
+  maintenance: { label: 'Maintenance', class: 'cat-maintenance' },
+  service: { label: 'Service', class: 'cat-service' },
+  idea: { label: 'Idea', class: 'cat-idea' },
+  safety: { label: 'Safety', class: 'cat-safety' },
+  other: { label: 'Other', class: 'cat-other' },
+};
+
+const PRIORITIES = { low: 'Low', med: 'Medium', high: 'High' };
+
+let snags = loadSnags();
+let currentView = 'home';
+let activeFilter = 'all';
+let editingId = null;
+let draft = emptyDraft();
+let detailPhotoIdx = 0;
+
+function loadSnags() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) { return []; }
+}
+
+function saveSnags() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(snags)); }
+  catch (e) { alert('Storage full. Export some snags and delete old ones.'); }
+}
+
+function emptyDraft() {
+  return { id: null, cat: '', property: '', location: '', priority: 'med', section: '', title: '', notes: '', photos: [], createdAt: null, status: 'open' };
+}
+
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function downscaleImage(dataUrl, maxDim, quality) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > maxDim || height > maxDim) {
+        const r = Math.min(maxDim / width, maxDim / height);
+        width = Math.round(width * r);
+        height = Math.round(height * r);
+      }
+      const c = document.createElement('canvas');
+      c.width = width; c.height = height;
+      c.getContext('2d').drawImage(img, 0, 0, width, height);
+      resolve(c.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
+function toast(msg, ms = 2000) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('visible');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('visible'), ms);
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const today = new Date();
+  const diff = (today - d) / 86400000;
+  if (diff < 1) return 'Today · ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  if (diff < 2) return 'Yesterday';
+  if (diff < 7) return Math.floor(diff) + ' days ago';
+  return d.toLocaleDateString([], { day: 'numeric', month: 'short' });
+}
+
+function propertyName(code) {
+  const p = PROPERTIES.find(x => x.code === code);
+  return p ? `${p.code} · ${p.name}` : code;
+}
+
+/* =====================================================================
+   HOME VIEW — list + filter
+   ===================================================================== */
+function renderFilterBar() {
+  const bar = document.getElementById('filterBar');
+  const live = snags.filter(s => !s.deleted);
+  const counts = { all: live.filter(s => s.status !== 'done').length };
+  Object.keys(CATEGORIES).forEach(k => { counts[k] = live.filter(s => s.status !== 'done' && s.cat === k).length; });
+  counts.done = live.filter(s => s.status === 'done').length;
+
+  const chips = [
+    { k: 'all', label: 'Open' },
+    ...Object.entries(CATEGORIES).map(([k, v]) => ({ k, label: v.label })),
+    { k: 'done', label: 'Done' },
+  ];
+
+  bar.innerHTML = chips.map(c => `
+    <button class="chip ${activeFilter === c.k ? 'active' : ''}" onclick="setFilter('${c.k}')">
+      ${c.label}<span class="count">${counts[c.k] || 0}</span>
+    </button>
+  `).join('');
+}
+
+function setFilter(f) { activeFilter = f; renderFilterBar(); renderList(); }
+window.setFilter = setFilter;
+
+function renderList() {
+  const list = document.getElementById('list');
+  const hero = document.getElementById('homeHero');
+
+  // Exclude soft-deleted tombstones from any UI
+  let filtered = snags.filter(s => !s.deleted);
+  if (activeFilter === 'all') filtered = filtered.filter(s => s.status !== 'done');
+  else if (activeFilter === 'done') filtered = filtered.filter(s => s.status === 'done');
+  else filtered = filtered.filter(s => s.cat === activeFilter && s.status !== 'done');
+
+  // sort: priority (high first), then newest
+  const priOrder = { high: 0, med: 1, low: 2 };
+  filtered.sort((a, b) => (priOrder[a.priority] - priOrder[b.priority]) || (b.createdAt||'').localeCompare(a.createdAt||''));
+
+  if (snags.length === 0) {
+    hero.style.display = 'block';
+    list.innerHTML = `<div class="empty">
+      <h3>Nothing logged yet</h3>
+      <p>Hit the + button to start. Your first snag takes 15 seconds.</p>
+    </div>`;
+    return;
+  }
+
+  hero.style.display = 'none';
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty">
+      <h3>No snags in this filter</h3>
+      <p>Nothing matches right now. Try another category.</p>
+    </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(s => {
+    const thumbStyle = s.photos && s.photos.length
+      ? `background-image: url(${s.photos[0]});`
+      : '';
+    const thumbInner = s.photos && s.photos.length ? '' : `
+      <div class="snag-thumb snag-thumb-empty" style="${thumbStyle}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </div>`;
+    const thumb = s.photos && s.photos.length
+      ? `<div class="snag-thumb" style="${thumbStyle}"></div>`
+      : thumbInner;
+    const cat = CATEGORIES[s.cat] || CATEGORIES.other;
+    const title = s.title || (s.notes ? s.notes.slice(0, 60) : 'Untitled snag');
+    const meta = [
+      s.property || '',
+      s.location || '',
+    ].filter(Boolean).join(' · ');
+
+    return `
+      <div class="snag-card ${s.status === 'done' ? 'done' : ''}" onclick="openDetail('${s.id}')">
+        ${thumb}
+        <div class="snag-main">
+          <div>
+            <div class="snag-title">${escapeHtml(title)}</div>
+            <div class="snag-meta">
+              <span class="priority-dot pri-${s.priority||'med'}"></span>
+              <span>${escapeHtml(meta) || 'No location'}</span>
+            </div>
+          </div>
+          <div class="snag-meta">
+            <span class="cat-tag ${cat.class}">${cat.label}</span>
+            <span class="snag-dot">·</span>
+            <span>${formatDate(s.createdAt)}</span>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* =====================================================================
+   NEW / EDIT SHEET
+   ===================================================================== */
+function openNew(editId) {
+  editingId = editId || null;
+  if (editId) {
+    draft = JSON.parse(JSON.stringify(snags.find(s => s.id === editId)));
+    document.getElementById('sheetTitle').textContent = 'Edit Snag';
+    document.getElementById('saveBtn').textContent = 'Save Changes';
+  } else {
+    draft = emptyDraft();
+    document.getElementById('sheetTitle').textContent = 'New Snag';
+    document.getElementById('saveBtn').textContent = 'Save Snag';
+  }
+  paintDraft();
+  document.getElementById('newSheet').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+window.openNew = openNew;
+
+function closeNew() {
+  document.getElementById('newSheet').classList.remove('visible');
+  document.body.style.overflow = '';
+  editingId = null;
+}
+window.closeNew = closeNew;
+
+function paintDraft() {
+  // category
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.toggle('selected', b.dataset.cat === draft.cat));
+  // priority
+  document.querySelectorAll('.pri-btn').forEach(b => b.classList.toggle('selected', b.dataset.pri === draft.priority));
+  // fields
+  document.getElementById('f-property').value = draft.property || '';
+  document.getElementById('f-location').value = draft.location || '';
+  document.getElementById('f-section').value = draft.section || '';
+  document.getElementById('f-title').value = draft.title || '';
+  document.getElementById('f-notes').value = draft.notes || '';
+  // photos
+  renderPhotoSlot();
+}
+
+function renderPhotoSlot() {
+  const slot = document.getElementById('photoSlot');
+  const add = slot.querySelector('.photo-add');
+  slot.querySelectorAll('.photo-item').forEach(n => n.remove());
+  (draft.photos || []).forEach((src, i) => {
+    const el = document.createElement('div');
+    el.className = 'photo-item';
+    el.style.backgroundImage = `url(${src})`;
+    const rm = document.createElement('button');
+    rm.className = 'photo-remove';
+    rm.textContent = '×';
+    rm.onclick = (e) => { e.stopPropagation(); draft.photos.splice(i, 1); renderPhotoSlot(); };
+    el.appendChild(rm);
+    slot.insertBefore(el, add);
+  });
+}
+
+function addPhoto() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.capture = 'environment';
+  input.multiple = true;
+  input.onchange = () => {
+    [...input.files].forEach(f => {
+      const r = new FileReader();
+      r.onload = () => downscaleImage(r.result, 1280, 0.78).then(small => {
+        draft.photos = draft.photos || [];
+        draft.photos.push(small);
+        renderPhotoSlot();
+      });
+      r.readAsDataURL(f);
+    });
+  };
+  input.click();
+}
+window.addPhoto = addPhoto;
+
+// Wire category & priority buttons
+document.querySelectorAll('.cat-btn').forEach(b => {
+  b.onclick = () => {
+    draft.cat = b.dataset.cat;
+    document.querySelectorAll('.cat-btn').forEach(x => x.classList.toggle('selected', x.dataset.cat === draft.cat));
+  };
+});
+document.querySelectorAll('.pri-btn').forEach(b => {
+  b.onclick = () => {
+    draft.priority = b.dataset.pri;
+    document.querySelectorAll('.pri-btn').forEach(x => x.classList.toggle('selected', x.dataset.pri === draft.priority));
+  };
+});
+
+// Auto-capture field inputs to draft
+['f-property', 'f-location', 'f-section', 'f-title', 'f-notes'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => {
+    const k = id.replace('f-', '');
+    draft[k] = el.value;
+  });
+  el.addEventListener('change', () => {
+    const k = id.replace('f-', '');
+    draft[k] = el.value;
+  });
+});
+
+function saveSnag() {
+  // light validation
+  if (!draft.cat) { toast('Pick a category'); return; }
+  if (!draft.property) { toast('Pick a property'); return; }
+  if (!draft.title && !draft.notes && (!draft.photos || draft.photos.length === 0)) {
+    toast('Add a photo, title, or note');
+    return;
+  }
+
+  if (editingId) {
+    const idx = snags.findIndex(s => s.id === editingId);
+    if (idx >= 0) {
+      snags[idx] = { ...snags[idx], ...draft };
+      snags[idx].updatedAt = new Date().toISOString();
+    }
+  } else {
+    const snag = { ...draft };
+    snag.id = uid();
+    snag.createdAt = new Date().toISOString();
+    snag.updatedAt = snag.createdAt;
+    snag.status = 'open';
+    snags.unshift(snag);
+  }
+
+  saveSnags();
+  closeNew();
+  renderAll();
+  toast(editingId ? 'Updated' : 'Snag saved');
+}
+window.saveSnag = saveSnag;
+
+/* =====================================================================
+   DETAIL VIEW
+   ===================================================================== */
+function openDetail(id) {
+  const s = snags.find(x => x.id === id);
+  if (!s) return;
+  detailPhotoIdx = 0;
+  renderDetail(s);
+  document.getElementById('detailSheet').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+window.openDetail = openDetail;
+
+function closeDetail() {
+  document.getElementById('detailSheet').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+window.closeDetail = closeDetail;
+
+function renderDetail(s) {
+  const root = document.getElementById('detailContent');
+  const cat = CATEGORIES[s.cat] || CATEGORIES.other;
+  const photos = s.photos || [];
+  const photoIdx = Math.min(detailPhotoIdx, Math.max(0, photos.length - 1));
+  const heroStyle = photos[photoIdx] ? `background-image: url(${photos[photoIdx]});` : '';
+  const heroInner = photos[photoIdx]
+    ? ''
+    : `<div class="detail-hero-empty" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </div>`;
+
+  const nav = photos.length > 1
+    ? `<div class="detail-photo-nav">${photos.map((_, i) => `<span class="dot ${i === photoIdx ? 'active' : ''}" onclick="setDetailPhoto(${i},'${s.id}')"></span>`).join('')}</div>`
+    : '';
+
+  const prop = PROPERTIES.find(p => p.code === s.property);
+  const propLabel = prop ? `${prop.code} · ${prop.name}` : (s.property || '—');
+
+  root.innerHTML = `
+    <div class="detail-hero" style="${heroStyle}" onclick="${photos.length ? `cycleDetailPhoto('${s.id}')` : ''}">
+      ${heroInner}
+      ${nav}
+    </div>
+    <div class="detail-body">
+      <div class="detail-tags">
+        <span class="cat-tag ${cat.class}">${cat.label}</span>
+        <span class="priority-dot pri-${s.priority||'med'}"></span>
+        <span style="font-size:11px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;font-weight:600;">${PRIORITIES[s.priority]||'Medium'} priority</span>
+        ${s.status === 'done' ? '<span class="cat-tag" style="background:rgba(126,164,116,0.14);color:var(--sage);border:1px solid rgba(126,164,116,0.25);">Done</span>' : ''}
+      </div>
+      <h2 class="detail-title">${escapeHtml(s.title || 'Untitled snag')}</h2>
+      <div class="detail-sub">${escapeHtml(propLabel)}${s.location ? ' · ' + escapeHtml(s.location) : ''} · ${formatDate(s.createdAt)}</div>
+
+      ${s.notes ? `<div class="detail-section">
+        <div class="detail-label">Notes</div>
+        <div class="detail-value">${escapeHtml(s.notes)}</div>
+      </div>` : ''}
+
+      ${s.section ? `<div class="detail-section">
+        <div class="detail-label">Audit area</div>
+        <div class="detail-value">${escapeHtml(s.section)}</div>
+      </div>` : ''}
+
+      <div class="detail-actions">
+        <button class="btn-secondary" onclick="toggleDone('${s.id}')">${s.status === 'done' ? 'Reopen' : 'Mark done'}</button>
+        <button class="btn-secondary" onclick="closeDetail(); openNew('${s.id}')">Edit</button>
+        <button class="btn-danger" onclick="deleteSnag('${s.id}')">Delete</button>
+      </div>
+    </div>`;
+}
+
+function setDetailPhoto(i, id) {
+  detailPhotoIdx = i;
+  const s = snags.find(x => x.id === id);
+  if (s) renderDetail(s);
+}
+window.setDetailPhoto = setDetailPhoto;
+
+function cycleDetailPhoto(id) {
+  const s = snags.find(x => x.id === id);
+  if (!s || !s.photos || s.photos.length <= 1) return;
+  detailPhotoIdx = (detailPhotoIdx + 1) % s.photos.length;
+  renderDetail(s);
+}
+window.cycleDetailPhoto = cycleDetailPhoto;
+
+function toggleDone(id) {
+  const s = snags.find(x => x.id === id);
+  if (!s) return;
+  s.status = s.status === 'done' ? 'open' : 'done';
+  s.updatedAt = new Date().toISOString();
+  saveSnags();
+  closeDetail();
+  renderAll();
+  toast(s.status === 'done' ? 'Marked done' : 'Reopened');
+}
+window.toggleDone = toggleDone;
+
+function deleteSnag(id) {
+  if (!confirm('Delete this snag?')) return;
+  // Soft delete: mark as deleted with timestamp so sync propagates the change.
+  // If never synced, we can just remove it locally.
+  const idx = snags.findIndex(s => s.id === id);
+  if (idx === -1) return;
+  if (getSyncUrl() && getLastSync()) {
+    snags[idx] = { ...snags[idx], deleted: true, updatedAt: new Date().toISOString() };
+    // Remove from visible list (filter out deleted in render functions handled separately if needed)
+    snags = snags.filter(s => !s.deleted);  // hide locally immediately
+    // Put the tombstone back so sync can propagate the deletion on next push.
+    // (Simplified approach: we keep deleted records until next successful sync.)
+    const tombstone = { id: id, deleted: true, updatedAt: new Date().toISOString() };
+    snags.push(tombstone);
+  } else {
+    snags = snags.filter(s => s.id !== id);
+  }
+  saveSnags();
+  closeDetail();
+  renderAll();
+  toast('Deleted');
+}
+window.deleteSnag = deleteSnag;
+
+/* =====================================================================
+   GM REPORT VIEW
+   ===================================================================== */
+function renderReportPropDropdown() {
+  const sel = document.getElementById('reportProp');
+  const existingValue = sel.value;
+  // Only show properties that have snags
+  const used = [...new Set(snags.map(s => s.property).filter(Boolean))];
+  used.sort();
+  sel.innerHTML = '<option value="">All properties</option>' +
+    used.map(code => {
+      const p = PROPERTIES.find(x => x.code === code);
+      const label = p ? `${p.code} · ${p.name}` : code;
+      return `<option value="${code}">${escapeHtml(label)}</option>`;
+    }).join('');
+  if (used.includes(existingValue)) sel.value = existingValue;
+}
+
+function renderReport() {
+  renderReportPropDropdown();
+  const prop = document.getElementById('reportProp').value;
+  const live = snags.filter(s => !s.deleted);
+  const rows = prop ? live.filter(s => s.property === prop) : live;
+
+  // Stats
+  const total = rows.length;
+  const maint = rows.filter(s => s.cat === 'maintenance').length;
+  const highPri = rows.filter(s => s.priority === 'high' && s.status !== 'done').length;
+  const open = rows.filter(s => s.status !== 'done').length;
+  document.getElementById('rs-total').textContent = total;
+  document.getElementById('rs-maint').textContent = maint;
+  document.getElementById('rs-high').textContent = highPri;
+  document.getElementById('rs-open').textContent = open;
+
+  // Group by category
+  const content = document.getElementById('reportContent');
+  if (rows.length === 0) {
+    content.innerHTML = `<div class="empty">
+      <h3>No snags to report</h3>
+      <p>${prop ? 'Nothing logged for this property yet.' : 'Nothing logged yet. Switch to All Snags and add some.'}</p>
+    </div>`;
+    return;
+  }
+
+  // Open items grouped by category, then done items at the bottom
+  const catOrder = ['maintenance', 'safety', 'service', 'idea', 'other'];
+  let html = '';
+
+  catOrder.forEach(catKey => {
+    const items = rows.filter(s => s.cat === catKey && s.status !== 'done');
+    if (items.length === 0) return;
+    const cat = CATEGORIES[catKey];
+    items.sort((a, b) => ({ high: 0, med: 1, low: 2 }[a.priority] - { high: 0, med: 1, low: 2 }[b.priority]));
+
+    html += `<div class="report-group">
+      <div class="report-group-head">
+        <span>${cat.label}</span>
+        <span class="cnt">${items.length} open</span>
+      </div>`;
+    items.forEach(s => {
+      const title = s.title || (s.notes ? s.notes.slice(0, 60) : 'Untitled snag');
+      const thumbStyle = s.photos && s.photos.length ? `background-image: url(${s.photos[0]});` : '';
+      html += `
+        <div class="snag-card" onclick="openDetail('${s.id}')">
+          <div class="snag-thumb${(s.photos && s.photos.length) ? '' : ' snag-thumb-empty'}" style="${thumbStyle}">
+            ${(s.photos && s.photos.length) ? '' : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`}
+          </div>
+          <div class="snag-main">
+            <div>
+              <div class="snag-title">${escapeHtml(title)}</div>
+              <div class="snag-meta">
+                <span class="priority-dot pri-${s.priority||'med'}"></span>
+                <span>${escapeHtml((s.property || '') + (s.location ? ' · ' + s.location : ''))}</span>
+              </div>
+            </div>
+            <div class="snag-meta">
+              <span>${formatDate(s.createdAt)}</span>
+              ${s.section ? `<span class="snag-dot">·</span><span>${escapeHtml(s.section)}</span>` : ''}
+            </div>
+          </div>
+        </div>`;
+    });
+    html += `</div>`;
+  });
+
+  // Done section
+  const doneItems = rows.filter(s => s.status === 'done');
+  if (doneItems.length > 0) {
+    html += `<div class="report-group">
+      <div class="report-group-head">
+        <span style="color:var(--muted);">Completed</span>
+        <span class="cnt">${doneItems.length} done</span>
+      </div>`;
+    doneItems.forEach(s => {
+      const title = s.title || (s.notes ? s.notes.slice(0, 60) : 'Untitled snag');
+      const cat = CATEGORIES[s.cat] || CATEGORIES.other;
+      html += `
+        <div class="snag-card done" onclick="openDetail('${s.id}')">
+          <div class="snag-thumb${(s.photos && s.photos.length) ? '' : ' snag-thumb-empty'}" style="${s.photos && s.photos.length ? `background-image: url(${s.photos[0]});` : ''}">
+            ${(s.photos && s.photos.length) ? '' : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`}
+          </div>
+          <div class="snag-main">
+            <div>
+              <div class="snag-title">${escapeHtml(title)}</div>
+              <div class="snag-meta"><span>${escapeHtml((s.property || '') + (s.location ? ' · ' + s.location : ''))}</span></div>
+            </div>
+            <div class="snag-meta"><span class="cat-tag ${cat.class}">${cat.label}</span></div>
+          </div>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  content.innerHTML = html;
+}
+window.renderReport = renderReport;
+
+/* =====================================================================
+   EXPORT
+   ===================================================================== */
+function exportJson() {
+  const prop = document.getElementById('reportProp').value;
+  const rows = prop ? snags.filter(s => s.property === prop) : snags;
+  const data = { _type: 'elewana_snags', _exported: new Date().toISOString(), property: prop || 'all', snags: rows };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `elewana_snags_${prop || 'all'}_${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  toast('Exported');
+}
+window.exportJson = exportJson;
+
+function exportReport() {
+  // Try Web Share with file (supports mobile share-sheet) first; fall back to print
+  const prop = document.getElementById('reportProp').value;
+  const rows = prop ? snags.filter(s => s.property === prop && s.status !== 'done') : snags.filter(s => s.status !== 'done');
+  if (rows.length === 0) { toast('Nothing to share'); return; }
+
+  const propLabel = prop ? propertyName(prop) : 'All Properties';
+  let txt = `ELEWANA SNAGS — ${propLabel}\nGenerated ${new Date().toLocaleString()}\n\n`;
+  const byCat = {};
+  rows.forEach(s => {
+    const cat = CATEGORIES[s.cat]?.label || 'Other';
+    if (!byCat[cat]) byCat[cat] = [];
+    byCat[cat].push(s);
+  });
+  Object.keys(byCat).forEach(catLabel => {
+    txt += `== ${catLabel.toUpperCase()} (${byCat[catLabel].length}) ==\n`;
+    byCat[catLabel].forEach(s => {
+      const title = s.title || (s.notes ? s.notes.slice(0, 80) : 'Untitled');
+      txt += `\n• [${(s.priority || 'med').toUpperCase()}] ${title}\n`;
+      if (s.location) txt += `  Location: ${s.location}\n`;
+      if (!prop && s.property) txt += `  Property: ${s.property}\n`;
+      if (s.notes && s.title) txt += `  Notes: ${s.notes}\n`;
+      if (s.section) txt += `  Audit area: ${s.section}\n`;
+      if (s.photos && s.photos.length) txt += `  Photos: ${s.photos.length}\n`;
+    });
+    txt += '\n';
+  });
+
+  if (navigator.share) {
+    navigator.share({
+      title: `Elewana Snags — ${propLabel}`,
+      text: txt,
+    }).catch(() => fallbackPrint());
+  } else {
+    fallbackPrint();
+  }
+
+  function fallbackPrint() {
+    window.print();
+  }
+}
+window.exportReport = exportReport;
+
+/* =====================================================================
+   VIEW SWITCHING
+   ===================================================================== */
+function switchView(v) {
+  currentView = v;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === v));
+  document.querySelectorAll('.view').forEach(x => x.classList.toggle('active', x.id === v + 'View'));
+  document.getElementById('fab').style.display = v === 'home' ? 'flex' : 'none';
+  if (v === 'report') renderReport();
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+window.switchView = switchView;
+
+function renderAll() {
+  const live = snags.filter(s => !s.deleted);
+  document.getElementById('openCount').textContent = live.filter(s => s.status !== 'done').length;
+  document.getElementById('allBadge').textContent = live.filter(s => s.status !== 'done').length;
+  renderFilterBar();
+  renderList();
+  if (currentView === 'report') renderReport();
+}
+
+/* =====================================================================
+   SYNC — Google Sheets backend via Apps Script Web App
+   ===================================================================== */
+const SYNC_URL_KEY = 'elewana_sync_url';
+const LAST_SYNC_KEY = 'elewana_snags_last_sync';
+
+function getSyncUrl() { return localStorage.getItem(SYNC_URL_KEY) || ''; }
+function setSyncUrl(u) { if (u) localStorage.setItem(SYNC_URL_KEY, u); else localStorage.removeItem(SYNC_URL_KEY); updateSyncIndicator(); }
+function getLastSync() { return localStorage.getItem(LAST_SYNC_KEY) || ''; }
+function setLastSync(iso) { localStorage.setItem(LAST_SYNC_KEY, iso); }
+
+function updateSyncIndicator() {
+  const dot = document.getElementById('syncDot');
+  const label = document.getElementById('syncLabel');
+  const url = getSyncUrl();
+  if (!url) {
+    dot.style.background = 'var(--muted)';
+    label.textContent = 'Sync';
+  } else {
+    const last = getLastSync();
+    if (last) {
+      const mins = Math.round((Date.now() - new Date(last)) / 60000);
+      dot.style.background = mins < 30 ? 'var(--forest)' : 'var(--amber)';
+      label.textContent = mins < 1 ? 'Just synced' : mins < 60 ? mins + 'm ago' : Math.round(mins/60) + 'h ago';
+    } else {
+      dot.style.background = 'var(--ochre)';
+      label.textContent = 'Not synced';
+    }
+  }
+}
+
+function openSyncSheet() {
+  document.getElementById('syncUrlInput').value = getSyncUrl();
+  updateSyncStatus();
+  document.getElementById('syncSheet').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+window.openSyncSheet = openSyncSheet;
+
+function closeSyncSheet() {
+  document.getElementById('syncSheet').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+window.closeSyncSheet = closeSyncSheet;
+
+function updateSyncStatus() {
+  const el = document.getElementById('syncStatus');
+  const url = getSyncUrl();
+  const last = getLastSync();
+  if (!url) {
+    el.textContent = 'Not connected. Paste your Web App URL below to enable sync.';
+    el.style.background = 'var(--surface)';
+    el.style.borderColor = 'var(--line)';
+  } else if (last) {
+    el.innerHTML = `Connected ✓<br><span style="color:var(--muted);font-size:11px;">Last synced ${new Date(last).toLocaleString()}</span>`;
+    el.style.background = 'rgba(126,164,116,0.08)';
+    el.style.borderColor = 'rgba(126,164,116,0.25)';
+  } else {
+    el.innerHTML = `Connected, not yet synced.<br><span style="color:var(--muted);font-size:11px;">Tap Sync now to push your local snags to the team sheet.</span>`;
+    el.style.background = 'rgba(212,146,74,0.08)';
+    el.style.borderColor = 'rgba(212,146,74,0.3)';
+  }
+}
+
+function saveSyncUrl() {
+  const url = document.getElementById('syncUrlInput').value.trim();
+  if (url && !url.startsWith('https://script.google.com/')) {
+    if (!confirm('That URL doesn\'t look like a Google Apps Script URL. Save anyway?')) return;
+  }
+  setSyncUrl(url);
+  updateSyncStatus();
+  toast(url ? 'URL saved' : 'URL cleared');
+}
+window.saveSyncUrl = saveSyncUrl;
+
+function clearSyncUrl() {
+  if (!confirm('Disconnect from Google Sheet? Your local data stays.')) return;
+  setSyncUrl('');
+  document.getElementById('syncUrlInput').value = '';
+  localStorage.removeItem(LAST_SYNC_KEY);
+  updateSyncStatus();
+  toast('Disconnected');
+}
+window.clearSyncUrl = clearSyncUrl;
+
+function appendLog(msg) {
+  const log = document.getElementById('syncLog');
+  const line = document.createElement('div');
+  line.textContent = msg;
+  log.appendChild(line);
+}
+
+function setSyncButton(busy, label) {
+  const btn = document.getElementById('syncNowBtn');
+  const lab = document.getElementById('syncNowLabel');
+  btn.disabled = busy;
+  btn.style.opacity = busy ? '0.6' : '1';
+  lab.textContent = label || (busy ? 'Syncing…' : 'Sync now');
+}
+
+async function syncNow() {
+  const url = getSyncUrl();
+  if (!url) { toast('Add a sync URL first'); return; }
+
+  const log = document.getElementById('syncLog');
+  log.innerHTML = '';
+  setSyncButton(true);
+
+  try {
+    // 1. PUSH — send local snags that have changed since last sync
+    const since = getLastSync();
+    appendLog(since ? `Looking for changes since ${new Date(since).toLocaleTimeString()}…` : 'First sync — pushing all local snags…');
+
+    const toPush = snags.filter(s => {
+      const u = s.updatedAt || s.createdAt;
+      return !since || !u || new Date(u) >= new Date(since);
+    });
+
+    if (toPush.length === 0) {
+      appendLog('No local changes to push.');
+    } else {
+      // Separate photos into photosToUpload field expected by the backend.
+      // A photo is "new" if it starts with data: URL. Already-synced photos
+      // will be http(s) URLs.
+      const payload = toPush.map(s => {
+        const item = { ...s };
+        const photos = s.photos || [];
+        const toUpload = [];
+        const existingUrls = [];
+        photos.forEach((p, idx) => {
+          if (typeof p === 'string' && p.startsWith('data:')) {
+            toUpload.push({ tempId: `${s.id}_${idx}`, dataUrl: p });
+          } else if (typeof p === 'string' && p.startsWith('http')) {
+            existingUrls.push(p);
+          }
+        });
+        item.photosToUpload = toUpload;
+        item.photoUrls = existingUrls;
+        // Don't push raw base64 photos in the main record; only in photosToUpload
+        delete item.photos;
+        return item;
+      });
+
+      appendLog(`Pushing ${toPush.length} snag${toPush.length===1?'':'s'}…`);
+
+      const pushResp = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({ type: 'snags', items: payload }),
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },  // avoids CORS preflight
+        redirect: 'follow',
+      });
+
+      if (!pushResp.ok) throw new Error(`Push failed: HTTP ${pushResp.status}`);
+      const pushData = await pushResp.json();
+      if (!pushData.ok) throw new Error('Push failed: ' + pushData.error);
+      appendLog(`✓ Pushed ${pushData.saved} snag${pushData.saved===1?'':'s'}.`);
+
+      // Merge returned photo URLs back into local snags, so next time we
+      // don't re-upload them.
+      const photoMap = pushData.photos || {};
+      toPush.forEach(localSnag => {
+        const photos = localSnag.photos || [];
+        const newPhotos = [];
+        photos.forEach((p, idx) => {
+          if (typeof p === 'string' && p.startsWith('data:')) {
+            const tempId = `${localSnag.id}_${idx}`;
+            const url = photoMap[tempId];
+            newPhotos.push(url || p);  // keep local if upload failed
+          } else {
+            newPhotos.push(p);
+          }
+        });
+        localSnag.photos = newPhotos;
+      });
+      saveSnags();
+    }
+
+    // 2. PULL — get any snags updated by others since our last sync
+    appendLog(`Pulling updates…`);
+    const pullUrl = url + '?type=snags' + (since ? '&since=' + encodeURIComponent(since) : '');
+    const pullResp = await fetch(pullUrl, { redirect: 'follow' });
+    if (!pullResp.ok) throw new Error(`Pull failed: HTTP ${pullResp.status}`);
+    const pullData = await pullResp.json();
+    if (!pullData.ok) throw new Error('Pull failed: ' + pullData.error);
+
+    let pulled = 0;
+    let added = 0;
+    (pullData.items || []).forEach(remote => {
+      // Skip records we just pushed (would be a no-op but wastes ops)
+      if (!remote.id) return;
+      const localIdx = snags.findIndex(s => s.id === remote.id);
+      const remoteUpdated = remote.updatedAt || remote.createdAt;
+
+      // Transform remote record to local shape
+      const localShape = {
+        id: remote.id,
+        cat: remote.cat || 'other',
+        property: remote.property || '',
+        location: remote.location || '',
+        priority: remote.priority || 'med',
+        section: remote.section || '',
+        title: remote.title || '',
+        notes: remote.notes || '',
+        status: remote.status || 'open',
+        createdAt: remote.createdAt,
+        updatedAt: remoteUpdated,
+        photos: Array.isArray(remote.photoUrls) ? remote.photoUrls : [],
+      };
+
+      if (localIdx === -1) {
+        if (!remote.deleted) {
+          snags.unshift(localShape);
+          added++;
+          pulled++;
+        }
+      } else {
+        const localUpdated = snags[localIdx].updatedAt || snags[localIdx].createdAt;
+        if (remoteUpdated && new Date(remoteUpdated) > new Date(localUpdated)) {
+          if (remote.deleted) {
+            snags.splice(localIdx, 1);
+          } else {
+            // Preserve any local-only photos that haven't been uploaded yet
+            const localOnlyPhotos = (snags[localIdx].photos || []).filter(p => typeof p === 'string' && p.startsWith('data:'));
+            snags[localIdx] = { ...localShape, photos: [...localShape.photos, ...localOnlyPhotos] };
+          }
+          pulled++;
+        }
+      }
+    });
+
+    if (pulled === 0) {
+      appendLog('✓ No remote changes.');
+    } else {
+      appendLog(`✓ Pulled ${pulled} change${pulled===1?'':'s'} (${added} new).`);
+      saveSnags();
+    }
+
+    // 3. Record sync time & update UI
+    const serverTime = pullData.serverTime || new Date().toISOString();
+    setLastSync(serverTime);
+    appendLog(`Sync complete at ${new Date(serverTime).toLocaleTimeString()}.`);
+    renderAll();
+    updateSyncStatus();
+    updateSyncIndicator();
+    toast('Synced');
+
+  } catch (err) {
+    appendLog(`❌ ${err.message || err}`);
+    toast('Sync failed');
+    console.error(err);
+  } finally {
+    setSyncButton(false);
+  }
+}
+window.syncNow = syncNow;
+
+/* =====================================================================
+   BOOT
+   ===================================================================== */
+renderAll();
+updateSyncIndicator();
+
+// Close sheets on overlay tap
+document.getElementById('newSheet').addEventListener('click', (e) => {
+  if (e.target.id === 'newSheet') closeNew();
+});
+</script>
+</body>
+</html>
