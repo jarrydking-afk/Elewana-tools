@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e0d0b">
+<title>Elewana · Snag Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #f8f4ec;
+  --bg2:       #f2ede2;
+  --bg3:       #ece7da;
+  --surface:   #e4dece;
+  --surface2:  #dbd5c4;
+  --line:      #e0dbc8;
+  --line2:     #ccc7b0;
+  --ink:       #1a1c12;
+  --ink2:      #3a3d2a;
+  --ink3:      #7a7d62;
+  --ochre:     #8a7a3a;
+  --ochre2:    #b09a50;
+  --ochre-dim: rgba(138,122,58,0.1);
+  --forest:    #2d4a28;
+  --forest-dim:rgba(45,74,40,0.08);
+  --crimson:   #7a2820;
+  --crimson-dim:rgba(122,40,32,0.1);
+  --amber:     #8a6418;
+  --amber-dim: rgba(138,100,24,0.1);
+  --slate:     #4a6878;
+  --slate-dim: rgba(74,104,120,0.1);
+  --r: 3px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+
+html,body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Jost',system-ui,sans-serif;
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+
+.serif{font-family:'Fraunces',Georgia,serif;font-variation-settings:"opsz" 144}
+.mono{font-family:'DM Mono',monospace}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(248,244,236,0.97);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+  padding:calc(var(--safe-top) + 14px) 20px 14px;
+  display:flex;align-items:center;gap:12px;
+}
+.topbar-brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--ochre);flex-shrink:0}
+.brand-name{font-family:'Fraunces',serif;font-variation-settings:"opsz" 144;font-size:17px;font-weight:500;color:var(--ink);letter-spacing:-0.02em}
+.brand-sub{font-size:11px;color:var(--ink3);letter-spacing:0.06em;text-transform:uppercase;margin-top:1px}
+.topbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.btn-icon{background:var(--surface);border:1px solid var(--line2);color:var(--ink2);border-radius:var(--r);padding:7px 10px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:6px;transition:all 0.15s;white-space:nowrap;font-family:inherit}
+.btn-icon:hover{background:var(--surface2);color:var(--ink);border-color:var(--line2)}
+.btn-icon svg{width:14px;height:14px;flex-shrink:0}
+.btn-primary{background:var(--ochre);border-color:var(--ochre);color:#0e0d0b;font-weight:600}
+.btn-primary:hover{background:var(--ochre2);border-color:var(--ochre2);color:#0e0d0b}
+
+/* ── SYNC STATUS ── */
+.sync-bar{
+  padding:8px 20px;
+  background:var(--bg2);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-size:12px;color:var(--ink3);
+}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--ink3);display:inline-block;margin-right:6px}
+.sync-dot.live{background:var(--forest);box-shadow:0 0 6px rgba(45,74,40,0.5)}
+.sync-dot.error{background:var(--crimson)}
+
+/* ── FILTERS ── */
+.filters{
+  padding:14px 20px;
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  border-bottom:1px solid var(--line);
+  background:var(--bg2);
+  position:sticky;top:calc(var(--safe-top) + 61px);
+  z-index:90;
+}
+.filter-chip{
+  background:var(--surface);border:1px solid var(--line2);
+  color:var(--ink2);border-radius:20px;padding:5px 12px;
+  font-size:12px;cursor:pointer;transition:all 0.15s;white-space:nowrap;
+  font-family:inherit;
+}
+.filter-chip:hover{border-color:var(--ochre);color:var(--ochre)}
+.filter-chip.active{background:var(--ochre-dim);border-color:var(--ochre);color:var(--ochre-dark,#6a5a28);font-weight:500}
+.filter-select{
+  background:var(--surface);border:1px solid var(--line2);
+  color:var(--ink2);border-radius:20px;padding:5px 28px 5px 12px;
+  font-size:12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238a8070' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  font-family:inherit;
+}
+.filter-select:focus{outline:none;border-color:var(--ochre);color:var(--ink)}
+.filter-search{
+  background:var(--surface);border:1px solid var(--line2);
+  color:var(--ink);border-radius:20px;padding:5px 14px;
+  font-size:12px;flex:1;min-width:120px;
+  font-family:inherit;
+}
+.filter-search::placeholder{color:var(--ink3)}
+.filter-search:focus{outline:none;border-color:var(--ochre)}
+
+/* ── STATS ROW ── */
+.stats-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--line);
+  border-bottom:1px solid var(--line);
+}
+.stat-card{
+  background:var(--bg2);padding:14px 16px;text-align:center;
+}
+.stat-num{font-family:'Fraunces',serif;font-variation-settings:"opsz" 144;font-size:28px;font-weight:500;line-height:1;color:var(--ink)}
+.stat-num.crit{color:var(--crimson)}
+.stat-num.open{color:var(--amber)}
+.stat-num.done{color:var(--forest)}
+.stat-label{font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.06em;margin-top:4px}
+
+/* ── MAIN ── */
+.main{padding:16px 20px 80px;max-width:1200px;margin:0 auto;}
+
+/* ── VIEW TOGGLE ── */
+.view-toggle{display:flex;gap:4px;margin-bottom:16px}
+.view-btn{background:var(--surface);border:1px solid var(--line2);color:var(--ink3);padding:6px 14px;border-radius:var(--r);font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.view-btn.active{background:var(--surface2);border-color:var(--line2);color:var(--ink)}
+
+/* ── SNAG CARDS ── */
+.snags-grid{display:flex;flex-direction:column;gap:8px}
+
+.snag-card{
+  background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;transition:border-color 0.15s;cursor:pointer;
+}
+.snag-card:hover{border-color:var(--line2)}
+.snag-card.priority-critical{border-left:3px solid var(--crimson)}
+.snag-card.priority-high{border-left:3px solid var(--amber)}
+.snag-card.priority-med{border-left:3px solid var(--ochre)}
+.snag-card.priority-low{border-left:3px solid var(--slate)}
+.snag-card.status-done{opacity:0.5}
+
+.snag-card-inner{padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}
+.snag-card-left{}
+.snag-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px;line-height:1.3}
+.snag-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.snag-prop{font-family:'DM Mono',monospace;font-size:11px;color:var(--ochre);background:var(--ochre-dim);padding:2px 7px;border-radius:3px}
+.snag-loc{font-size:11px;color:var(--ink3)}
+.snag-cat{font-size:11px;color:var(--ink3);background:var(--surface);padding:2px 7px;border-radius:3px}
+.snag-age{font-size:11px;color:var(--ink3)}
+
+.snag-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.priority-badge{
+  font-size:10px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;
+  padding:3px 8px;border-radius:3px;
+}
+.priority-badge.critical{background:var(--crimson-dim);color:var(--crimson)}
+.priority-badge.high{background:var(--amber-dim);color:var(--amber)}
+.priority-badge.med{background:var(--ochre-dim);color:var(--ochre)}
+.priority-badge.low{background:var(--slate-dim);color:var(--slate)}
+
+.status-badge{
+  font-size:10px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;
+  padding:3px 8px;border-radius:3px;
+}
+.status-badge.open{background:rgba(212,168,48,0.1);color:var(--amber)}
+.status-badge.in-progress{background:rgba(90,138,160,0.12);color:var(--slate)}
+.status-badge.done{background:var(--forest-dim);color:var(--forest)}
+
+.snag-photo-strip{display:flex;gap:4px;padding:0 14px 10px;overflow-x:auto}
+.snag-photo-thumb{
+  width:52px;height:52px;border-radius:4px;object-fit:cover;flex-shrink:0;
+  background:var(--surface);border:1px solid var(--line);
+}
+
+/* ── PROPERTY GROUP VIEW ── */
+.prop-group{margin-bottom:20px}
+.prop-group-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r) var(--r) 0 0;cursor:pointer;
+}
+.prop-group-name{font-size:13px;font-weight:600;color:var(--ink)}
+.prop-group-code{font-family:'DM Mono',monospace;font-size:11px;color:var(--ochre);margin-right:8px}
+.prop-group-count{font-size:11px;color:var(--ink3)}
+.prop-group-body{border:1px solid var(--line);border-top:none;border-radius:0 0 var(--r) var(--r);overflow:hidden}
+.prop-group-body .snag-card{border-radius:0;border-left-width:3px;border-right:none;border-top:none;border-bottom:1px solid var(--line)}
+.prop-group-body .snag-card:last-child{border-bottom:none}
+
+/* ── DETAIL MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.2s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:var(--bg2);border:1px solid var(--line);border-radius:16px 16px 0 0;
+  width:100%;max-width:600px;max-height:88vh;overflow-y:auto;
+  transform:translateY(30px);transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  padding-bottom:calc(20px + var(--safe-bottom));
+}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--line2);border-radius:2px;margin:12px auto 0}
+.modal-header{padding:16px 20px 12px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.modal-title{font-family:'Fraunces',serif;font-variation-settings:"opsz" 144;font-size:20px;font-weight:500;color:var(--ink);line-height:1.2}
+.modal-close{background:var(--surface);border:1px solid var(--line2);color:var(--ink2);border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.modal-close:hover{background:var(--surface2);color:var(--ink)}
+.modal-body{padding:16px 20px}
+.modal-section{margin-bottom:16px}
+.modal-label{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
+.modal-value{font-size:14px;color:var(--ink)}
+.modal-badges{display:flex;gap:8px;flex-wrap:wrap}
+.modal-photos{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.modal-photo{width:90px;height:90px;border-radius:6px;object-fit:cover;cursor:pointer;border:1px solid var(--line);flex-shrink:0}
+.modal-actions{padding:0 20px;display:flex;flex-direction:column;gap:8px}
+.btn-full{width:100%;padding:12px;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;border:1px solid transparent;font-family:inherit;transition:all 0.15s}
+.btn-resolve{background:var(--forest-dim);border-color:var(--forest);color:var(--forest)}
+.btn-resolve:hover{background:var(--forest);color:#fffef9}
+.btn-progress{background:var(--slate-dim);border-color:var(--slate);color:var(--slate)}
+.btn-progress:hover{background:var(--slate);color:#fffef9}
+.btn-reopen{background:var(--amber-dim);border-color:var(--amber);color:var(--amber)}
+.btn-reopen:hover{background:var(--amber);color:#fffef9}
+.assign-row{display:flex;gap:8px}
+.assign-select{flex:1;background:var(--surface);border:1px solid var(--line2);color:var(--ink);border-radius:var(--r);padding:10px 12px;font-size:13px;font-family:inherit}
+.assign-select:focus{outline:none;border-color:var(--ochre)}
+.btn-assign{background:var(--surface2);border:1px solid var(--line2);color:var(--ink2);border-radius:var(--r);padding:10px 14px;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all 0.15s}
+.btn-assign:hover{border-color:var(--ochre);color:var(--ochre)}
+
+/* ── SETTINGS PANEL ── */
+.settings-panel{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.2s;
+}
+.settings-panel.open{opacity:1;pointer-events:all}
+.settings-sheet{
+  background:var(--bg2);border:1px solid var(--line);border-radius:16px 16px 0 0;
+  width:100%;max-width:500px;padding:20px 20px calc(20px + var(--safe-bottom));
+  transform:translateY(30px);transition:transform 0.25s ease;
+}
+.settings-panel.open .settings-sheet{transform:translateY(0)}
+.settings-title{font-family:'Fraunces',serif;font-variation-settings:"opsz" 144;font-size:18px;font-weight:500;margin-bottom:16px}
+.settings-field{margin-bottom:12px}
+.settings-label{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
+.settings-input{width:100%;background:var(--surface);border:1px solid var(--line2);color:var(--ink);border-radius:var(--r);padding:10px 12px;font-size:13px;font-family:'DM Mono',monospace}
+.settings-input:focus{outline:none;border-color:var(--ochre)}
+.settings-hint{font-size:11px;color:var(--ink3);margin-top:4px}
+
+/* ── EMPTY / LOADING ── */
+.empty{text-align:center;padding:60px 20px;color:var(--ink3)}
+.empty-icon{font-size:40px;margin-bottom:12px;opacity:0.4}
+.empty-title{font-family:'Fraunces',serif;font-variation-settings:"opsz" 144;font-size:20px;color:var(--ink2);margin-bottom:6px}
+.loading-ring{
+  width:32px;height:32px;border:2px solid var(--line2);border-top-color:var(--ochre);
+  border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:calc(20px + var(--safe-bottom));left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--surface2);border:1px solid var(--line2);color:var(--ink);
+  padding:10px 18px;border-radius:20px;font-size:13px;z-index:500;
+  opacity:0;transition:all 0.2s;pointer-events:none;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── PHOTO LIGHTBOX ── */
+.lightbox{
+  position:fixed;inset:0;background:rgba(0,0,0,0.93);z-index:400;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.2s;
+}
+.lightbox.open{opacity:1;pointer-events:all}
+.lightbox img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:4px}
+.lightbox-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+@media(min-width:768px){
+  .main{padding:20px 24px 40px}
+  .stats-row{grid-template-columns:repeat(4,1fr)}
+  .snags-grid.grid-view{display:grid;grid-template-columns:repeat(2,1fr)}
+  .modal{border-radius:12px;margin:auto;max-height:80vh}
+  .modal-overlay{align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="brand-dot"></div>
+    <div>
+      <div class="brand-name" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:20px;letter-spacing:0.06em;text-transform:uppercase;">Elewana</div>
+      <div class="brand-sub">Snag Dashboard</div>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn-icon" onclick="syncNow()" id="syncBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+      Sync
+    </button>
+    <button class="btn-icon" onclick="openSettings()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- SYNC BAR -->
+<div class="sync-bar">
+  <span><span class="sync-dot" id="syncDot"></span><span id="syncStatus">Not connected — tap Settings to add your Web App URL</span></span>
+  <span id="syncTime" style="color:var(--ink3);font-size:11px"></span>
+</div>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Total</div></div>
+  <div class="stat-card"><div class="stat-num crit" id="statCrit">—</div><div class="stat-label">Critical</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:var(--amber)" id="statOpen">—</div><div class="stat-label">Open</div></div>
+  <div class="stat-card"><div class="stat-num done" id="statDone">—</div><div class="stat-label">Resolved</div></div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <input class="filter-search" type="search" placeholder="🔍 Search snags…" oninput="applyFilters()" id="searchInput">
+  <select class="filter-select" onchange="applyFilters()" id="propFilter">
+    <option value="">All properties</option>
+    <option value="ACL">ACL · Arusha Coffee Lodge</option>
+    <option value="TMN">TMN · Tarangire Manor</option>
+    <option value="TTT">TTT · Tarangire Treetops</option>
+    <option value="SPC">SPC · Serengeti Pioneer Camp</option>
+    <option value="SMC">SMC · Serengeti Migration Camp</option>
+    <option value="TCA">TCA · The Coffee Lodge Arusha</option>
+    <option value="EKM">EKM · Elsa's Kopje Meru</option>
+    <option value="SRM">SRM · Sand River Mara</option>
+    <option value="EPC">EPC · Elewana Pioneer Camp</option>
+    <option value="LSC">LSC · Loisaba Star Beds</option>
+    <option value="KLZ">KLZ · Kilindi Zanzibar</option>
+    <option value="KHL">KHL · The Manor at Ngorongoro</option>
+    <option value="ACD">ACD · Arusha Coffee Day House</option>
+    <option value="LTC">LTC · Loisaba Tented Camp</option>
+    <option value="LSB">LSB · Loisaba Star Beds</option>
+    <option value="LLS">LLS · Loisaba Lodo Springs</option>
+  </select>
+  <select class="filter-select" onchange="applyFilters()" id="priorityFilter">
+    <option value="">All priorities</option>
+    <option value="critical">Critical</option>
+    <option value="high">High</option>
+    <option value="med">Medium</option>
+    <option value="low">Low</option>
+  </select>
+  <select class="filter-select" onchange="applyFilters()" id="statusFilter">
+    <option value="open">Open only</option>
+    <option value="in-progress">In Progress</option>
+    <option value="">All statuses</option>
+    <option value="done">Resolved</option>
+  </select>
+</div>
+
+<!-- VIEW TOGGLE + MAIN -->
+<div class="main">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="setView('list',this)" id="listViewBtn">List</button>
+      <button class="view-btn" onclick="setView('property',this)" id="propViewBtn">By Property</button>
+    </div>
+    <div id="resultCount" style="font-size:12px;color:var(--ink3)"></div>
+  </div>
+  <div id="snagContainer"><div class="empty"><div class="empty-icon">📋</div><div class="empty-title">No snags loaded</div><p>Connect your Google Sheet in Settings and tap Sync</p></div></div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="modal" id="detailModal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-title serif" id="detailTitle">—</div>
+      <button class="modal-close" onclick="closeDetailBtn()">✕</button>
+    </div>
+    <div class="modal-body" id="detailBody"></div>
+    <div class="modal-actions" id="detailActions"></div>
+  </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-panel" id="settingsPanel" onclick="closeSettings(event)">
+  <div class="settings-sheet">
+    <div class="settings-title serif">Settings</div>
+    <div class="settings-field">
+      <div class="settings-label">Google Apps Script Web App URL</div>
+      <input class="settings-input" type="url" id="settingsUrl" placeholder="https://script.google.com/macros/s/…/exec">
+      <div class="settings-hint">From your Apps Script deployment. Same URL used in the Snag Tool.</div>
+    </div>
+    <div class="settings-field">
+      <div class="settings-label">Team members (one per line)</div>
+      <textarea class="settings-input" id="settingsTeam" rows="4" placeholder="Jarryd King&#10;Sarah M&#10;Tom N" style="resize:vertical;font-family:'DM Mono',monospace"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn-icon" style="background:var(--forest);border-color:var(--forest);color:#fffef9;font-weight:600;" style="flex:1;justify-content:center;padding:10px" onclick="saveSettings()">Save</button>
+      <button class="btn-icon" onclick="closeSettingsBtn()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ─────────────────────────────────────────────────────
+const STORAGE_KEY   = 'elewana_dash_snags';
+const SETTINGS_KEY  = 'elewana_dash_settings';
+const LAST_SYNC_KEY = 'elewana_dash_lastsync';
+
+let allSnags    = [];
+let filtered    = [];
+let currentView = 'list';
+let settings    = { url: '', team: [] };
+let openSnagId  = null;
+
+const PROPERTIES = [
+  {code:'ACL',name:'Arusha Coffee Lodge'},
+  {code:'TMN',name:'Tarangire Manor'},
+  {code:'TTT',name:'Tarangire Treetops'},
+  {code:'SPC',name:'Serengeti Pioneer Camp'},
+  {code:'SMC',name:'Serengeti Migration Camp'},
+  {code:'TCA',name:'The Coffee Lodge Arusha'},
+  {code:'EKM',name:"Elsa's Kopje Meru"},
+  {code:'SRM',name:'Sand River Mara'},
+  {code:'EPC',name:'Elewana Pioneer Camp'},
+  {code:'LSC',name:'Loisaba Star Beds'},
+  {code:'KLZ',name:'Kilindi Zanzibar'},
+  {code:'KHL',name:'The Manor at Ngorongoro'},
+  {code:'ACD',name:'Arusha Coffee Day House'},
+  {code:'LTC',name:'Loisaba Tented Camp'},
+  {code:'LSB',name:'Loisaba Star Beds'},
+  {code:'LLS',name:'Loisaba Lodo Springs'},
+];
+
+function propName(code){
+  const p = PROPERTIES.find(x=>x.code===code);
+  return p ? p.name : code;
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+function init(){
+  loadSettings();
+  loadLocal();
+  applyFilters();
+  updateSyncStatus();
+  // Auto-sync on load if URL set
+  if(settings.url) syncNow();
+}
+
+function loadSettings(){
+  try{
+    const s = JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}');
+    settings.url  = s.url  || '';
+    settings.team = s.team || [];
+  }catch(e){}
+}
+
+function saveSettings(){
+  settings.url  = document.getElementById('settingsUrl').value.trim();
+  const raw     = document.getElementById('settingsTeam').value;
+  settings.team = raw.split('\n').map(s=>s.trim()).filter(Boolean);
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  closeSettingsBtn();
+  toast('Settings saved');
+  updateSyncStatus();
+  if(settings.url) syncNow();
+}
+
+function loadLocal(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) allSnags = JSON.parse(raw);
+  }catch(e){ allSnags=[]; }
+}
+
+function saveLocal(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(allSnags)); }catch(e){}
+}
+
+// ── SYNC ──────────────────────────────────────────────────────
+async function syncNow(){
+  if(!settings.url){ openSettings(); return; }
+  const btn = document.getElementById('syncBtn');
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 0.7s linear infinite"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg> Syncing…`;
+
+  try{
+    // Push any status updates first
+    const toUpdate = allSnags.filter(s=>s._dirty);
+    if(toUpdate.length){
+      await fetch(settings.url, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({type:'snags', items:toUpdate})
+      });
+      allSnags.forEach(s=>delete s._dirty);
+    }
+
+    // Pull all snags
+    const res  = await fetch(`${settings.url}?type=snags`);
+    const data = await res.json();
+
+    if(data.ok && data.items){
+      // Merge — remote wins for non-dirty records
+      const remoteMap = {};
+      data.items.forEach(s=>{ if(!s.deleted) remoteMap[s.id]=s; });
+      // Keep local items not yet on remote, merge rest
+      const merged = Object.values(remoteMap);
+      allSnags = merged;
+      saveLocal();
+      applyFilters();
+      updateStats();
+      const now = new Date().toISOString();
+      localStorage.setItem(LAST_SYNC_KEY, now);
+      updateSyncStatus(true);
+      toast(`✓ ${merged.length} snags loaded`);
+    } else {
+      throw new Error(data.error || 'Unknown error');
+    }
+  }catch(e){
+    toast('❌ Sync failed: '+e.message);
+    document.getElementById('syncDot').className='sync-dot error';
+    document.getElementById('syncStatus').textContent='Sync failed — check URL in Settings';
+  }
+
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg> Sync`;
+}
+
+function updateSyncStatus(synced=false){
+  const dot    = document.getElementById('syncDot');
+  const status = document.getElementById('syncStatus');
+  const time   = document.getElementById('syncTime');
+  if(!settings.url){
+    dot.className='sync-dot';
+    status.textContent='Not connected — tap Settings';
+    return;
+  }
+  if(synced){
+    dot.className='sync-dot live';
+    status.textContent='Live — synced with Google Sheets';
+    const last = localStorage.getItem(LAST_SYNC_KEY);
+    if(last) time.textContent='Last sync: '+new Date(last).toLocaleTimeString();
+  } else {
+    const last = localStorage.getItem(LAST_SYNC_KEY);
+    if(last){
+      dot.className='sync-dot live';
+      status.textContent='Connected';
+      time.textContent='Last sync: '+new Date(last).toLocaleTimeString();
+    } else {
+      dot.className='sync-dot';
+      status.textContent='URL set — tap Sync to load';
+    }
+  }
+}
+
+// ── FILTERS & RENDER ──────────────────────────────────────────
+function applyFilters(){
+  const search   = (document.getElementById('searchInput').value||'').toLowerCase();
+  const prop     = document.getElementById('propFilter').value;
+  const priority = document.getElementById('priorityFilter').value;
+  const status   = document.getElementById('statusFilter').value;
+
+  filtered = allSnags.filter(s=>{
+    if(prop     && s.property !== prop)   return false;
+    if(priority && s.priority !== priority) return false;
+    if(status   && s.status   !== status) return false;
+    if(search){
+      const hay = [s.title,s.notes,s.property,s.location,s.cat,s.section].join(' ').toLowerCase();
+      if(!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  // Sort: critical first, then by date desc
+  const priOrd = {critical:0,high:1,med:2,low:3};
+  filtered.sort((a,b)=>{
+    const pd = (priOrd[a.priority]||2)-(priOrd[b.priority]||2);
+    if(pd!==0) return pd;
+    return new Date(b.createdAt||0)-new Date(a.createdAt||0);
+  });
+
+  document.getElementById('resultCount').textContent = `${filtered.length} snag${filtered.length!==1?'s':''}`;
+  updateStats();
+  renderSnags();
+}
+
+function updateStats(){
+  const live = allSnags.filter(s=>!s.deleted);
+  document.getElementById('statTotal').textContent = live.length||'0';
+  document.getElementById('statCrit').textContent  = live.filter(s=>s.priority==='critical'&&s.status!=='done').length||'0';
+  document.getElementById('statOpen').textContent  = live.filter(s=>s.status==='open').length||'0';
+  document.getElementById('statDone').textContent  = live.filter(s=>s.status==='done').length||'0';
+}
+
+function setView(v, btn){
+  currentView=v;
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSnags();
+}
+
+function renderSnags(){
+  const el = document.getElementById('snagContainer');
+  if(!filtered.length){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">✓</div><div class="empty-title">${allSnags.length?'No snags match filters':'No snags yet'}</div><p>${allSnags.length?'Try adjusting your filters':'Sync from your Snag Tool to load data'}</p></div>`;
+    return;
+  }
+
+  if(currentView==='property'){
+    renderByProperty(el);
+  } else {
+    el.innerHTML='';
+    const grid=document.createElement('div');
+    grid.className='snags-grid';
+    filtered.forEach(s=>grid.appendChild(snagCard(s)));
+    el.appendChild(grid);
+  }
+}
+
+function renderByProperty(el){
+  el.innerHTML='';
+  const groups={};
+  filtered.forEach(s=>{
+    const k=s.property||'Unknown';
+    if(!groups[k]) groups[k]=[];
+    groups[k].push(s);
+  });
+
+  Object.entries(groups).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([code,snags])=>{
+    const open=snags.filter(s=>s.status!=='done').length;
+    const grp=document.createElement('div');
+    grp.className='prop-group';
+    grp.innerHTML=`
+      <div class="prop-group-header" onclick="toggleGroup(this)">
+        <div><span class="prop-group-code">${code}</span><span class="prop-group-name">${propName(code)}</span></div>
+        <span class="prop-group-count">${open} open · ${snags.length} total</span>
+      </div>
+      <div class="prop-group-body"></div>`;
+    const body=grp.querySelector('.prop-group-body');
+    snags.forEach(s=>body.appendChild(snagCard(s)));
+    el.appendChild(grp);
+  });
+}
+
+function toggleGroup(header){
+  const body=header.nextElementSibling;
+  body.style.display=body.style.display==='none'?'':'none';
+}
+
+function snagCard(s){
+  const div=document.createElement('div');
+  div.className=`snag-card priority-${s.priority||'med'} status-${s.status||'open'}`;
+  div.onclick=()=>openDetail(s.id);
+
+  const age=s.createdAt?timeAgo(s.createdAt):'';
+  const photos=s.photoUrls||s.photos||[];
+
+  div.innerHTML=`
+    <div class="snag-card-inner">
+      <div class="snag-card-left">
+        <div class="snag-title">${escHtml(s.title||'Untitled snag')}</div>
+        ${s.notes?`<div style="font-size:12px;color:var(--ink3);margin-top:3px;line-height:1.4">${escHtml(s.notes.substring(0,100))}${s.notes.length>100?'…':''}</div>`:''}
+        <div class="snag-meta">
+          <span class="snag-prop">${escHtml(s.property||'?')}</span>
+          ${s.location?`<span class="snag-loc">📍 ${escHtml(s.location)}</span>`:''}
+          ${s.cat?`<span class="snag-cat">${escHtml(s.cat)}</span>`:''}
+          ${age?`<span class="snag-age">${age}</span>`:''}
+          ${s.assignedTo?`<span class="snag-cat">👤 ${escHtml(s.assignedTo)}</span>`:''}
+        </div>
+      </div>
+      <div class="snag-card-right">
+        <span class="priority-badge ${s.priority||'med'}">${s.priority||'med'}</span>
+        <span class="status-badge ${s.status||'open'}">${statusLabel(s.status)}</span>
+      </div>
+    </div>
+    ${photos.length?`<div class="snag-photo-strip">${photos.slice(0,4).map(p=>`<img class="snag-photo-thumb" src="${p}" loading="lazy">`).join('')}</div>`:''}
+  `;
+  return div;
+}
+
+// ── DETAIL ────────────────────────────────────────────────────
+function openDetail(id){
+  const s=allSnags.find(x=>x.id===id);
+  if(!s) return;
+  openSnagId=id;
+
+  document.getElementById('detailTitle').textContent=s.title||'Untitled snag';
+  const photos=s.photoUrls||s.photos||[];
+
+  document.getElementById('detailBody').innerHTML=`
+    ${photos.length?`<div class="modal-section"><div class="modal-photos">${photos.map(p=>`<img class="modal-photo" src="${p}" onclick="openLightbox('${p}')">`).join('')}</div></div>`:''}
+    <div class="modal-section">
+      <div class="modal-badges">
+        <span class="priority-badge ${s.priority||'med'}">${s.priority||'med'} priority</span>
+        <span class="status-badge ${s.status||'open'}">${statusLabel(s.status)}</span>
+      </div>
+    </div>
+    <div class="modal-section" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div><div class="modal-label">Property</div><div class="modal-value">${escHtml(s.property||'—')} · ${escHtml(propName(s.property))}</div></div>
+      <div><div class="modal-label">Location</div><div class="modal-value">${escHtml(s.location||'—')}</div></div>
+      <div><div class="modal-label">Category</div><div class="modal-value">${escHtml(s.cat||'—')}</div></div>
+      <div><div class="modal-label">Section</div><div class="modal-value">${escHtml(s.section||'—')}</div></div>
+    </div>
+    ${s.notes?`<div class="modal-section"><div class="modal-label">Notes</div><div class="modal-value">${escHtml(s.notes)}</div></div>`:''}
+    <div class="modal-section">
+      <div class="modal-label">Assigned to</div>
+      <div class="assign-row">
+        <select class="assign-select" id="assignSelect">
+          <option value="">Unassigned</option>
+          ${settings.team.map(t=>`<option value="${escHtml(t)}" ${s.assignedTo===t?'selected':''}>${escHtml(t)}</option>`).join('')}
+        </select>
+        <button class="btn-assign" onclick="assignSnag('${id}')">Assign</button>
+      </div>
+    </div>
+    <div class="modal-section"><div class="modal-label">Logged</div><div class="modal-value">${s.createdAt?new Date(s.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'—'}</div></div>
+  `;
+
+  const actions=document.getElementById('detailActions');
+  if(s.status==='done'){
+    actions.innerHTML=`<button class="btn-full btn-reopen" onclick="updateStatus('${id}','open')">↩ Reopen Snag</button>`;
+  } else if(s.status==='in-progress'){
+    actions.innerHTML=`
+      <button class="btn-full btn-resolve" onclick="updateStatus('${id}','done')">✓ Mark Resolved</button>
+      <button class="btn-full btn-reopen" onclick="updateStatus('${id}','open')">↩ Back to Open</button>`;
+  } else {
+    actions.innerHTML=`
+      <button class="btn-full btn-resolve" onclick="updateStatus('${id}','done')">✓ Mark Resolved</button>
+      <button class="btn-full btn-progress" onclick="updateStatus('${id}','in-progress')">⚡ Mark In Progress</button>`;
+  }
+
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function closeDetail(e){
+  if(e.target===document.getElementById('detailOverlay')) closeDetailBtn();
+}
+function closeDetailBtn(){
+  document.getElementById('detailOverlay').classList.remove('open');
+  openSnagId=null;
+}
+
+async function updateStatus(id, newStatus){
+  const s=allSnags.find(x=>x.id===id);
+  if(!s) return;
+  s.status=newStatus;
+  s.updatedAt=new Date().toISOString();
+  s._dirty=true;
+  saveLocal();
+  applyFilters();
+  closeDetailBtn();
+  toast(newStatus==='done'?'✓ Snag resolved':newStatus==='in-progress'?'⚡ Marked in progress':'↩ Reopened');
+
+  // Push update immediately if URL set
+  if(settings.url){
+    try{
+      await fetch(settings.url,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({type:'snags',items:[s]})
+      });
+      delete s._dirty;
+      saveLocal();
+    }catch(e){}
+  }
+}
+
+function assignSnag(id){
+  const s=allSnags.find(x=>x.id===id);
+  if(!s) return;
+  const val=document.getElementById('assignSelect').value;
+  s.assignedTo=val;
+  s.updatedAt=new Date().toISOString();
+  s._dirty=true;
+  saveLocal();
+  toast(val?`Assigned to ${val}`:'Assignment cleared');
+  openDetail(id);
+  if(settings.url){
+    fetch(settings.url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'snags',items:[s]})}).then(()=>{delete s._dirty;saveLocal();}).catch(()=>{});
+  }
+}
+
+// ── SETTINGS ─────────────────────────────────────────────────
+function openSettings(){
+  document.getElementById('settingsUrl').value=settings.url||'';
+  document.getElementById('settingsTeam').value=(settings.team||[]).join('\n');
+  document.getElementById('settingsPanel').classList.add('open');
+}
+function closeSettings(e){
+  if(e.target===document.getElementById('settingsPanel')) closeSettingsBtn();
+}
+function closeSettingsBtn(){
+  document.getElementById('settingsPanel').classList.remove('open');
+}
+
+// ── LIGHTBOX ─────────────────────────────────────────────────
+function openLightbox(src){
+  document.getElementById('lightboxImg').src=src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+// ── UTILS ─────────────────────────────────────────────────────
+function toast(msg,ms=2500){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.classList.remove('show'),ms);
+}
+
+function escHtml(s){
+  if(!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function statusLabel(s){
+  return s==='done'?'Resolved':s==='in-progress'?'In Progress':'Open';
+}
+
+function timeAgo(iso){
+  if(!iso) return '';
+  const diff=Date.now()-new Date(iso).getTime();
+  const d=Math.floor(diff/86400000);
+  if(d===0) return 'Today';
+  if(d===1) return 'Yesterday';
+  if(d<7)   return `${d}d ago`;
+  if(d<30)  return `${Math.floor(d/7)}w ago`;
+  return `${Math.floor(d/30)}mo ago`;
+}
+
+init();
+</script>
+</body>
+</html>
