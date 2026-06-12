@@ -5,33 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0d0d0d">
+<meta name="apple-mobile-web-app-title" content="Elewana">
+<meta name="theme-color" content="#f8f4ec">
 <title>Elewana Collection — Field Operations</title>
+<meta name="description" content="Elewana Collection Field Operations — Property Audit, Snag Log and Dashboard">
+<link rel="apple-touch-icon" id="touchIcon">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:          #0d0d0d;
-  --bg-card:     #141414;
-  --bg-alt:      #1a1a1a;
-  --bg-raise:    #1f1f1f;
-  --ink:         #e8e2d6;
-  --ink-soft:    #a09a8e;
-  --muted:       #5a5650;
-  --line:        #252525;
-  --line2:       #2e2e2e;
-  --gold:        #c9a84c;
-  --gold-dim:    rgba(201,168,76,0.12);
-  --gold-mid:    rgba(201,168,76,0.25);
-  --forest:      #4a7c45;
-  --forest-dim:  rgba(74,124,69,0.15);
-  --crimson:     #c0392b;
-  --crimson-dim: rgba(192,57,43,0.15);
-  --amber:       #d4860a;
-  --amber-dim:   rgba(212,134,10,0.15);
-  --shadow:      0 1px 3px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
-  --shadow-lg:   0 2px 8px rgba(0,0,0,0.5), 0 24px 64px rgba(0,0,0,0.4);
+  --bg:          #f8f4ec;
+  --bg-card:     #fffef9;
+  --bg-alt:      #f2ede2;
+  --bg-raise:    #eee8d8;
+  --ink:         #1a1c12;
+  --ink-soft:    #3a3d2a;
+  --muted:       #7a7d62;
+  --line:        #e0dbc8;
+  --line2:       #ccc7b0;
+  --gold:        #8a7a3a;
+  --gold-dim:    rgba(138,122,58,0.10);
+  --gold-mid:    rgba(138,122,58,0.22);
+  --forest:      #2d4a28;
+  --forest-dim:  rgba(45,74,40,0.10);
+  --crimson:     #7a2820;
+  --crimson-dim: rgba(122,40,32,0.10);
+  --amber:       #8a6418;
+  --amber-dim:   rgba(138,100,24,0.12);
+  --shadow:      0 1px 2px rgba(26,28,18,0.04), 0 4px 16px rgba(26,28,18,0.06);
+  --shadow-lg:   0 2px 4px rgba(26,28,18,0.06), 0 16px 40px rgba(26,28,18,0.10);
   --radius:      3px;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
@@ -52,14 +55,14 @@ html, body {
 /* ── SPLASH ── */
 #splash {
   position: fixed; inset: 0; z-index: 200;
-  background: #0d0d0d;
+  background: var(--bg); background: var(--bg);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   gap: 48px;
   transition: opacity 0.5s;
 }
 #splash.fade { opacity: 0; pointer-events: none; }
-.splash-logo { width: 180px; filter: invert(1) brightness(0.85); }
+.splash-logo { width: 180px; }
 .splash-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 13px;
@@ -97,7 +100,7 @@ html, body {
 /* ── TOP BAR ── */
 #topbar {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(13,13,13,0.97);
+  background: rgba(248,244,236,0.97);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--line);
@@ -310,7 +313,7 @@ html, body {
 /* Score summary bar */
 .score-summary-bar {
   position: sticky; bottom: 0; z-index: 40;
-  background: rgba(13,13,13,0.97); backdrop-filter: blur(12px);
+  background: rgba(248,244,236,0.97); backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--line2);
   padding: 12px 16px;
@@ -403,8 +406,8 @@ html, body {
 .snag-fab {
   position: fixed; bottom: 24px; right: 20px; z-index: 60;
   width: 56px; height: 56px; border-radius: 50%;
-  background: var(--gold); border: none; color: #0d0d0d;
-  font-size: 26px; cursor: pointer; box-shadow: 0 4px 24px rgba(201,168,76,0.4);
+  background: var(--forest); border: none; color: #fffef9;
+  font-size: 26px; cursor: pointer; box-shadow: 0 4px 24px rgba(45,74,40,0.3);
   display: flex; align-items: center; justify-content: center;
   transition: transform 0.15s, box-shadow 0.15s;
 }
@@ -424,7 +427,7 @@ html, body {
 }
 .panel-topbar {
   position: sticky; top: 0; z-index: 5;
-  background: rgba(13,13,13,0.97); backdrop-filter: blur(12px);
+  background: rgba(248,244,236,0.97); backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
   padding: 0 16px; height: 52px;
@@ -734,7 +737,7 @@ html, body {
 /* ── SYNC MODAL ── */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 90;
-  background: rgba(0,0,0,0.85);
+  background: rgba(26,28,18,0.6);
   display: flex; align-items: flex-end;
   opacity: 0; pointer-events: none; transition: opacity 0.25s;
 }
@@ -742,7 +745,7 @@ html, body {
 .modal-sheet {
   width: 100%; max-width: 560px; margin: 0 auto;
   background: var(--bg-card); border-radius: 12px 12px 0 0;
-  border-top: 1px solid var(--line2);
+  border-top: 2px solid var(--gold);
   padding: 20px 20px 40px;
   transform: translateY(40px); transition: transform 0.25s;
 }
@@ -857,15 +860,8 @@ html, body {
     <button class="splash-btn" onclick="goTo('audit-dash')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 17h7M17 14v7"/></svg>
       <div>
-        <span>Audit Dashboard</span>
-        <span class="btn-sub">Standings, trends, heatmap</span>
-      </div>
-    </button>
-    <button class="splash-btn" onclick="goTo('snag-dash')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-      <div>
-        <span>Snag Dashboard</span>
-        <span class="btn-sub">Operations overview across properties</span>
+        <span>Property Dashboard</span>
+        <span class="btn-sub">Audit scores, snags & photos by property</span>
       </div>
     </button>
   </div>
@@ -990,146 +986,118 @@ html, body {
   <div class="detail-bg" id="snagDetailBg"></div>
 </div>
 
-<!-- ═══════════════ AUDIT DASHBOARD PAGE ═══════════════ -->
+<!-- ═══════════════ UNIFIED PROPERTY DASHBOARD ═══════════════ -->
 <div id="page-audit-dash" class="page">
   <div class="dash-content">
-    <div id="auditDashEmpty" class="hidden" style="text-align:center;padding:60px 20px;">
-      <div class="serif" style="font-size:28px;color:var(--ink-soft);margin-bottom:12px;">No audits archived yet</div>
-      <p style="color:var(--muted);margin-bottom:20px;">Complete and archive audits in the Audit Tool, then return here to see performance analytics.</p>
-      <button class="dash-chip" onclick="document.getElementById('archiveRestoreInput').click()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
-        Import archive JSON
-      </button>
-      <input type="file" id="archiveRestoreInput" accept=".json" class="hidden" onchange="restoreArchive(this)">
+
+    <!-- Property Selector -->
+    <div style="margin-bottom:20px;">
+      <div class="meta-label" style="margin-bottom:8px;">Select Property</div>
+      <div id="propSelectorRow" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
     </div>
-    <div id="auditDashFull">
-      <!-- toolbar -->
-      <div class="dash-toolbar">
+
+    <!-- No data state -->
+    <div id="propDashEmpty" style="text-align:center;padding:60px 20px;">
+      <div class="serif" style="font-size:28px;color:var(--ink-soft);margin-bottom:12px;">No data yet</div>
+      <p style="color:var(--muted);margin-bottom:20px;">Archive audits and log snags to see the property dashboard.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
         <button class="dash-chip" onclick="document.getElementById('archiveRestoreInput').click()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+          Import audit JSON
+        </button>
+        <input type="file" id="archiveRestoreInput" accept=".json" class="hidden" onchange="restoreArchive(this)">
+      </div>
+    </div>
+
+    <!-- Property Dashboard Content -->
+    <div id="propDashContent" class="hidden">
+
+      <!-- Toolbar -->
+      <div class="dash-toolbar" style="margin-bottom:16px;">
+        <button class="dash-chip" onclick="document.getElementById('archiveRestoreInput2').click()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
           Import JSON
         </button>
+        <input type="file" id="archiveRestoreInput2" accept=".json" class="hidden" onchange="restoreArchive(this)">
         <button class="dash-chip" onclick="exportArchive()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
           Export archive
         </button>
         <button class="dash-chip" onclick="openSyncModal()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-          Sync from Sheet
+          Sync
         </button>
         <button class="dash-chip danger" onclick="clearArchive()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-          Clear all
+          Clear audits
         </button>
       </div>
 
+      <!-- Score hero -->
+      <div id="propScoreHero" style="background:var(--bg-card);border:1px solid var(--line2);border-radius:var(--radius);padding:24px 20px;margin-bottom:16px;display:flex;align-items:center;gap:24px;">
+        <div>
+          <div class="meta-label" style="margin-bottom:4px;">Overall Score</div>
+          <div id="propHeroScore" style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;line-height:1;color:var(--gold);">—</div>
+          <div id="propHeroVerdict" style="font-size:13px;color:var(--muted);margin-top:4px;"></div>
+        </div>
+        <div style="flex:1;">
+          <div id="propHeroMeta" style="font-size:12px;color:var(--muted);line-height:1.8;"></div>
+        </div>
+        <div>
+          <div class="meta-label" style="margin-bottom:6px;">Score Trend</div>
+          <svg id="propTrendMini" viewBox="0 0 200 60" style="width:200px;height:60px;"></svg>
+        </div>
+      </div>
+
       <!-- Stats row -->
-      <div class="dash-stats-row">
-        <div class="dash-stat"><div class="lbl">Properties</div><div class="val" id="ds-props">0</div><div class="sub">audited</div></div>
-        <div class="dash-stat"><div class="lbl">Audits</div><div class="val" id="ds-audits">0</div><div class="sub">total archived</div></div>
-        <div class="dash-stat"><div class="lbl">Group Average</div><div class="val" id="ds-avg">—</div><div class="sub" id="ds-avg-sub">of 4.00</div></div>
-        <div class="dash-stat"><div class="lbl">Open Actions</div><div class="val" id="ds-actions">0</div><div class="sub" id="ds-crit-wrap"><span id="ds-crit">0</span> critical misses</div></div>
+      <div class="dash-stats-row" style="margin-bottom:16px;">
+        <div class="dash-stat"><div class="lbl">Audits</div><div class="val" id="pd-audits">0</div><div class="sub">archived</div></div>
+        <div class="dash-stat"><div class="lbl">Critical Misses</div><div class="val" id="pd-crits" style="color:var(--crimson);">0</div><div class="sub">in latest audit</div></div>
+        <div class="dash-stat"><div class="lbl">Open Snags</div><div class="val" id="pd-snags-open" style="color:var(--amber);">0</div><div class="sub">logged</div></div>
+        <div class="dash-stat"><div class="lbl">High Priority</div><div class="val" id="pd-snags-high" style="color:var(--crimson);">0</div><div class="sub">snags</div></div>
       </div>
 
-      <!-- Standings -->
+      <!-- Section scores -->
       <div class="dash-section">
-        <div class="dash-section-title">
-          Property Standings <span class="dash-section-meta" id="standingsMeta"></span>
+        <div class="dash-section-title">Section Scores — Latest Audit</div>
+        <div id="propSectionScores" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;"></div>
+      </div>
+
+      <!-- Items to work on -->
+      <div class="dash-section">
+        <div class="dash-section-title">Areas to Work On</div>
+        <div id="propActionItems"></div>
+      </div>
+
+      <!-- Audit photos -->
+      <div class="dash-section" id="propAuditPhotosSection">
+        <div class="dash-section-title">Audit Photos</div>
+        <div id="propAuditPhotos" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+      </div>
+
+      <!-- Snags -->
+      <div class="dash-section">
+        <div class="dash-section-title" style="display:flex;align-items:center;justify-content:space-between;">
+          <span>Snags</span>
+          <div style="display:flex;gap:6px;">
+            <select class="sd-select" id="pdSnagStatus" onchange="renderPropDash()" style="font-size:11px;padding:4px 8px;">
+              <option value="">All</option>
+              <option value="open">Open</option>
+              <option value="resolved">Resolved</option>
+            </select>
+            <select class="sd-select" id="pdSnagPriority" onchange="renderPropDash()" style="font-size:11px;padding:4px 8px;">
+              <option value="">All priorities</option>
+              <option value="high">High</option>
+              <option value="med">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
         </div>
-        <div id="rankList"></div>
+        <div id="propSnagList"></div>
+        <div id="propSnagEmpty" class="hidden" style="color:var(--muted);font-size:13px;padding:16px 0;">No snags logged for this property.</div>
       </div>
 
-      <!-- Trends -->
-      <div class="dash-section">
-        <div class="dash-section-title">Score Trends</div>
-        <svg id="trendSvg" viewBox="0 0 800 340" style="width:100%;"></svg>
-        <div class="trend-legend" id="trendLegend"></div>
-      </div>
-
-      <!-- Heatmap -->
-      <div class="dash-section">
-        <div class="dash-section-title">Section Heatmap</div>
-        <div class="heatmap-wrap">
-          <table class="heatmap-table" id="heatmapTable"></table>
-        </div>
-      </div>
-
-      <!-- Criticals -->
-      <div class="dash-section">
-        <div class="dash-section-title">Critical Misses by Property</div>
-        <div id="critList"></div>
-      </div>
-
-      <!-- Backlog -->
-      <div class="dash-section">
-        <div class="dash-section-title">Action Backlog</div>
-        <div class="backlog-chips" id="backlogChips"></div>
-        <div id="backlogList"></div>
-      </div>
-
-      <!-- Matrix -->
-      <div class="dash-section">
-        <div class="dash-section-title">Section Matrix</div>
-        <div class="matrix-prop-chips" id="matrixChips"></div>
-        <div class="matrix-grid" id="matrixGrid"></div>
-      </div>
-
-      <!-- Strategy -->
-      <div class="dash-section">
-        <div class="dash-section-title">Priority Strategy</div>
-        <div id="strategyContent"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════ SNAG DASHBOARD PAGE ═══════════════ -->
-<div id="page-snag-dash" class="page">
-  <div class="snag-dash-content">
-    <!-- Stats -->
-    <div class="dash-stats-row" style="margin-bottom:20px;">
-      <div class="dash-stat"><div class="lbl">Open</div><div class="val" id="sd-open">0</div><div class="sub">snags</div></div>
-      <div class="dash-stat"><div class="lbl">High Priority</div><div class="val" id="sd-high" style="color:var(--crimson);">0</div><div class="sub">need attention</div></div>
-      <div class="dash-stat"><div class="lbl">Resolved</div><div class="val" id="sd-resolved" style="color:var(--forest);">0</div><div class="sub">total</div></div>
-      <div class="dash-stat"><div class="lbl">Properties</div><div class="val" id="sd-props">0</div><div class="sub">with snags</div></div>
-    </div>
-
-    <!-- Filters -->
-    <div class="sd-filter-row">
-      <select class="sd-select" id="sdPropFilter" onchange="renderSnagDash()">
-        <option value="">All Properties</option>
-      </select>
-      <select class="sd-select" id="sdStatusFilter" onchange="renderSnagDash()">
-        <option value="">All Statuses</option>
-        <option value="open">Open</option>
-        <option value="resolved">Resolved</option>
-      </select>
-      <select class="sd-select" id="sdPriorityFilter" onchange="renderSnagDash()">
-        <option value="">All Priorities</option>
-        <option value="high">High</option>
-        <option value="med">Medium</option>
-        <option value="low">Low</option>
-      </select>
-    </div>
-
-    <div class="sd-table-wrap">
-      <table class="sd-table">
-        <thead><tr>
-          <th></th>
-          <th>Title</th>
-          <th>Property</th>
-          <th>Category</th>
-          <th>Priority</th>
-          <th>Date</th>
-          <th>Status</th>
-        </tr></thead>
-        <tbody id="snagDashBody"></tbody>
-      </table>
-    </div>
-    <div id="snagDashEmpty" class="snag-empty hidden">
-      <div class="serif">No snags to show</div>
-      <p>Log snags in the Snag Tool to see them here.</p>
-    </div>
+    </div><!-- /propDashContent -->
   </div>
 </div>
 
@@ -1154,6 +1122,13 @@ html, body {
   </div>
 </div>
 
+<script>
+// Set apple touch icon
+(function(){
+  const icon = document.getElementById('touchIcon');
+  if(icon) icon.href = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAY00lEQVR4nO2deXBV5fmAn3vP3ZKwGhogQgQlAVkEAyibZAiRoIUKyOAIo60dmRaLU6psshRKEQRBS8WWGkYoMxYtRCibFWUphEVZgokoUNmDbAkhIcnNXb/fH/Cd30nEjSKSw/vM3OHmLme59znffb/3fc/BUVlWqBAEm+D8sTdAEK4nIrRgK0RowVaI0IKtEKEFWyFCC7ZChBZshQgt2AoRWrAVIrRgK0RowVaI0IKtEKEFWyFCC7ZChBZshQgt2AoRWrAVIrRgK0RowVaI0IKtEKEFWyFCC7ZChBZshQgt2AoRWrAVIrRgK0RowVaI0IKtEKEFWyFCC7ZChBZshQgt2AoRWrAVIrRgK0RowVaI0IKtEKEFWyFCC7ZChBZshQgt2AoRWrAVIrRgK0RowVaI0IKtEKEFWyFCC7ZChBZshQgt2AoRWrAVIrRgK1w3YiXeuPgbsRrhJidQXvSDr0NGaMFWiNCCrRChBVshQgu2QoQWbIUILdgKEVqwFSK0YCtEaMFWiNCCrRChBVshQl8FpRTRaBSl1I+9KcL35IY0J9UElFLmzel04nQ6qzzncDh+xK0TvisyQlsIhUIYhkE0GmXTpk1cuHABgGg0+iNvmfBdEaGvEIlEcLvdnD9/nscee4z09HR27doFIKNzDUJCDjDDjIqKCn7605+ya9cuHA5HlbBDqBnIN8blkMLpdPLMM8+QmprKE088gcvlokWLFubzQs3glh2htcSBQACv18srr7zCsWPH2LRpEz169KBPnz40b96caDSKYRg/9uYK35FbVuhwOIxSCq/Xy+7du1m1ahVr1qyhoKCAvXv3smXLFvO1EkPXHG7ZkMMwDJRS+P1+Jk2axAsvvECdOnVYuHAhvXv35v777zdHcaHmcEuP0D6fj2nTptGyZUsyMzM5e/Ysa9euJSsrS4oqNZRbRmg92iqliEQiuFwu9u/fz5o1a1i5ciUAWVlZPProo3Ts2JFQKITb7b7m9ekDQsKVG8stI7QWORKJ4HQ6MQyDSZMm8fDDD5OYmEh+fj5bt25l+fLlZnx9LRVCpRQVFRU4HA7cbjfhcBiHw4HH4zFL6roSKbJff24JobWchmGYo/OKFSvIy8tj4cKFlJWV8fLLLzNx4kRq166N3+/H5bq2j8bhcOByuXC5XKbUoVDIHPEdDoeI/ANiyxnPt8W/SilmzpzJkCFDiI+PZ+7cuaSmptKzZ0/8fj8AlZWV1yReJBLB6/WydetW2rRpw+9+9zuKiorwer2EQiHzdddDan2gCv+PrYTWHXLVZdGPBYNBPB4P//rXv9i1axdjx45ly5YtFBUVMWrUKILBIG63G6fTicfjMUOP74Ne9+HDhzlw4AB/+tOfePDBB1m+fDler5dgMEgwGPzGYk00GiUSiXzruvVo/79IrddlF2q80JFIhGg0SigUMuPS0tJSQqEQgUCgijx6UvjSSy/Rv39/Kisryc7O5sUXXyQUCuFwOIhEIjgcDrxerxk2hMNhUzC9vGAwSCgU+opMTqeTSCTC0KFDGT9+PHXr1uXTTz/lscceY+DAgZw/fx6fz2e+LhAIEAgECIfDhMNhcz8Mw8DhcBCNRqus3yp6eXk55eXl5jaGw2EqKyurbKueN+j3wuUMTzAYNEv+OhTTN/15hcPhG/hNXh9sIXQgEMDtdrNz504GDhxI+/bt+etf/4rH46GystLsoHO73eTl5bF79266detGVlYWI0aMMHPS+sv0eDysWLGCJ598kqVLl2IYBqFQiGAwaEqmY/KrjbR6GTNnzmTt2rWkp6djGAYrV64kJSWFadOmce7cOQzDwOv1mgePjtv37t3LsmXLOH78eJXRU4cYwWAQgHXr1vHAAw9w4MABAAKBAD6fz9wfl8tlHuT64C4vLyccDuPxeIhGo+Tl5bF27Vr27NlDZWWleVDpyXNNo8ZPCpVSxMTE8M477/D8888zePBgduzYweHDh82R1sqbb76J1+tl7969jB49mlatWlFRUWE+73a7GTZsGHv37qWoqIjS0lIef/xxUwDdYgpw6dIl6tatW2VbAFP0QCBA9+7dyc7OpkuXLkQiEdq3b8/ixYtZvXo1Xbt2JSUlhZiYGGrXrs2JEyd44403OHnyJC1atODnP/85o0ePNsMC/QujOXDgALm5uezbt4+UlBTi4uLIzc2lrKyMBx54gGAwiNPpNH9p9MHn8/lYuXIlL7zwAgcPHiQ5OZnU1FSmTp1Ky5YtzV+E/yVt+WNRY4W2Zi727t3LiBEjWLJkCf369WPLli00bdoUwPw5djqdlJaWsnr1ahwOB08//TT33Xcf5eXl5vJ8Ph/jxo3j1KlT7Ny5k7lz53LmzBkAgsEghmHg8XhwOBwMHz6c3bt3s2TJEtq3b08kEjFF1+I4HA4uXbpEvXr16NWrF7GxscydO5dz585RXl7O4cOHKSsr4/Dhwzz99NMAdOvWjXnz5tGzZ0+UUqxevZrMzEwzNtchQjQaZf369dSrV4/OnTvjdDpZtGgRzz77LPfeey///ve/8Xq95v7r7kGfz8f06dOZPHkyTZo0YcGCBQwYMICEhAQ2btxIfHw88fHxOJ3OmtnHUllWqH7o2w9FOBxWSinVu3dvlZqaqpRSKjs7W6WkpKhLly6pUCikwuGwCgQCKhKJqPfee08BauLEiUoppfx+vwqFQsrv9yullNq+fbuqX7++ysvLU0op1aFDB7Vy5UqllFLBYFBFIhEVCARUNBpVffv2VYB67bXXqmxPSUmJikQiKhgMmuuIRCJqypQp6te//rUKhUKqvLxcRSIR833PPfeccjqdaurUqaqiosJ8PC0tTbVp00YFg8Eqt2g0qg4ePKhcLpfKzMxUSim1YsUKFRcXp7xer6pbt646f/68uU3hcNjcx8mTJytAZWRkqNOnT5vrmjBhgoqNjVX79+9X0WjUXJdSSkWj0Sr/Xis3wrWaFyRdQY8eR48eJScnh9TUVI4fP86CBQt44403zFBDx7tOp5Pt27fjcDhITEw0H7NmRJYuXUogEKBdu3ZMmDCB1NRUfvazn5mTKx1yOBwOGjdubI76AIcOHSItLY2+ffuaE7uKigpzPQUFBSQnJ+NyuTAMw4yDZ8yYwSuvvMJTTz3FlClTiImJobi4mEceeYT//Oc/DBkyxMxl60yNw+Fg8eLFhMNhnnvuOb788kuysrJ49913qVWrFg0aNKBWrVrmvusyf3Z2Nn/84x+59957efvtt2nUqBGRSIRZs2Yxc+ZMEhMTSU5OrjJH0JNkPVe52Vtpa3TIAZcnUIFAgI8++og5c+YwduxY0tLSKCkpwePx4HK58Hq9vPXWWyxYsAClFLVr165S4PB6vfj9fj744APq16/PrFmzCAaDvP7664RCIaLRKC6Xi0AgQFxcHGfPniU3N9ecaEajUQ4dOsS2bdtwu90UFBRw55134nK5zIPg4sWLPPzwwwBmbL9q1SomTpzIPffcw4wZMwA4cuQIr732Gvv27QMw3+N2u82w6NSpU2RlZZGamkqfPn14/PHHefHFF4mLi6OoqIiMjAx8Ph+BQADDMDAMg8LCQsaMGYNhGLz++uvEx8dTVlbG22+/zT//+U98Ph89e/Y0Dx6Xy4VSioKCAj766CMGDx5shiE382Tx5t2y70hZWRkA+fn5tGjRgoyMDAKBAHXr1iUmJoYLFy4wfvx48vPzqVWrFg6Hw2zcV1cyGw6Hg+LiYkpLS7lw4QIHDx5kzpw5ZqlaZyHi4uLIycnhL3/5C+3atTNL2E6n05wsRiIRioqKzBHN5/OxfPlyEhMTSUlJIRwO43K5KC4uZurUqQBMmDCBhIQEtm3bxqJFixg+fDidOnUiPj6epKQkADPzYBgGEyZMoLCwkClTppCdnU2tWrXo0KED+fn5AOb+weXY3+VykZWVxdGjRxk2bBhdu3blxIkTzJ8/nw4dOjBgwAD8fj/du3c336f3Z/78+Rw7dgyn02nG4jczNVZo/cG2adMGr9eL0+nk1Vdf5c0336SwsJC8vDwmTpzII488wu23385LL71EKBTC5/OZI6dOrymlmDdvHiUlJfj9fj788EOWLFmC3+/HMAxKSkrIz89n5MiRzJ07l6eeeop+/foRjUY5ceIE+/fvJz8/n0GDBgGwefNmXC4XtWvX5vTp0yxbtoyRI0eahRqn08nnn39Obm4uzZs3p2XLlsyYMYN169YxduxYEhIS2Lx5M82aNcPn85lZDp/Px9///neWLl1Kr169aNmyJQsWLOAPf/gD0WiUY8eOAVCnTh1zXbGxsRQUFDBv3jx8Ph+PPvooy5YtY9KkSQwePJhOnTqxdetWAJKSksy0oNfrZeXKlVRUVDB27Fjzs7jpqcmTQj1J0RMd683j8aj09HSVk5OjlLo8OWvVqpUyDEO9++675jJCoZAaMWKEevXVV9U//vEPddttt5nLiIuLU+3atVNNmzZVTZs2VdOmTVOVlZVKKaUOHjyoWrdurQDVrl07tWfPHrVhwwYFqCZNmqi33npLLVq0SPXt21dt3LjRXJeeaGVnZytANW7cWPXq1UstXLjQ3Kbc3FwFqLZt26ri4mLz8XfeeUd17txZOZ1O1bdvXzVkyBC1YsUK8/mpU6cqh8Oh5syZYz62c+dONXz4cOXz+ZRhGKp9+/Zq1KhRqqSkRCl1ebLbo0cPZRiG2rNnj/m+ffv2qV/+8pequLhYRSIRFYlEVDQarTKZ/b7cCNdqbAwNmLnVqVOn0rFjR3NEad68OQMGDKBLly7A5XxxrVq1zCLEvHnzaNasGYWFhcyfP59evXoxatQoAJo1a8bSpUs5ceIEfr+f2NhYhgwZQkZGBj/5yU+AyxW0lJQUli1bxqZNm+jUqROpqakEg0F+9atf8be//Y1hw4aRkZHB1KlT6d69uxmHqyuxf+/evVm3bh0ul4uWLVuSlJREIBDA4/FQt25dkpKS+PTTT9m9ezfJycnMmjWLu+66i9/85jf84he/4Pjx44wdO5YBAwZQWVmJz+fj7rvvRinF4sWLcblcnD59Go/Hw+TJk3nooYc4cOAAaWlpdOvWDYCKigpiY2O5//77ycnJYcOGDbRq1Yrs7GzWr1/P9OnTqVevXpV2gps95HBUlhX+4N0tP9T/gqWuzOB1brY6ukCgv4QvvviCZ599ls2bN9O4cWPatWvHmDFjSE9PN2NUn8/3tevThQrDMMz4WFNRUWFmMD755BMMw6B9+/bm+zweT5VlVZ9c6WUDuFwuli1bxoQJE2jcuDEtWrSgf//+DBw4kEuXLrF//36Sk5PNiV1cXBxKKUpKSvj9739PTk4OCQkJPP/88/Tp0+cr+6FL4TpTdPjwYcaNG8fJkye54447aNq0KePHj6dRo0bXdRJ4I/4XLFsIrSdL1oIGXJZGN+/onuRAIMAnn3yC1+uldevWeDweSktL8fl8ZuZDT350FkNPrABzEqhHWt1Bp+NynVWAy+KEQiGzwGElGo3i9/vxer3m9uk0oo5/i4uLKS8vp3nz5mb5Gi5nZQKBAKFQiJiYGMLhsNn7oQ82nbbUvSfWx9WVlJxSykwHut1uzp49a6YkdZryelYLRejvgP4y9YhTXRx9ZreWRSlljpa6RVQfDFpKLbO1Oqe/YN0GqsMHnRvW77XKrkW62jU+9KTUWmHUr4lEIoTDYVO+6vtVXTar0HpbKioqzCYo+P9yvDX1prevvLwct9uNz+czm5b0gXy1g/FaEaG/J9ZYz3pfo79IHYZo+awtmOpKFkJZrnOn5dPiWZ/T79Xv16/X96+2Ldbnr3YAAd/4mGEYpsQ6DajXb12H3t6va6etfl+v75s+w/8F+Y83vyfVv/zqWEcrfd/65WlJrXG3/pL1r4B+j/X8RP2YNbzRWGW3bpv1YLKGG1ahrKdqWddtFU+P0noZ+vV6xAa+0u/8dZ9T9crpzT4BvBq2Evp/QY+Wumyt+4u1eLpUbRVUC2299K61NKzDBf2v9Tkdu+p5gF5u9ZuW0driqtdlva+Xf7W/a0T++DpRo9N21xMtnY6vDcPA5XJVafi3nglunQBaQwMtnj4Qqsukwx5dYtZnyHwbeh1ut9tM01mXV31SrLdDj+g3c7n6emILofVoZ/0SvytaPgCPx0NeXh4nT57E5XJx6dIlBg0ahMPhYMOGDXg8Ho4ePUqPHj2488472bNnD4cOHaJ///7UqlULv9/P0qVLue+++7j77rsB2LZtGxcuXKBOnTpEo1HS09MJBAKsX7+e+Ph4Dhw4QEZGBqdPn+bs2bMYhoHb7aawsJBu3bpRUFBAcXExmZmZuN1u3n//fTweDydPniQ9PZ0mTZqwe/dujh07xuDBgwmHw+zYsYOSkhIyMzOrxNfWUCocDn9rBsMa5lgP0ps5FLHFYet2u80m9uqx6He56dFv48aNLF26lLZt29K+fXs+/vhjIpEI8+fP58yZM7Rt25Y77riDadOmUVxcTElJCWvWrCE2NtY8a2bVqlXmaVGGYZil8eTkZDOUmT59Om63m3bt2uH1esnPz+fEiRMkJSWxdetWzpw5Q926dQkEAhw6dIgdO3bg8XiYPXs2586do0OHDiQmJjJu3DjOnz9PTEwMkydPZtGiRbhcLvx+P2fOnDF/BXSooucO+pzJb/tcrDG5NY6/mamxI7QeKc6fP8+JEydwOp14vd7vdR5cw4YNSUhIMIXOzs5m0KBB3HHHHWZb5ZdffklOTg5LlizB7XaTlpbGxo0bef/99+nUqRONGjUyJ5Jer9c8A0UvMzExkcOHD/Pxxx/z0EMPsW/fPgoKCujbty9KKYYOHWqmzbxeLx9++CENGzYkMzMTuNxNmJKSQnl5Ofn5+YwZM4ZIJEJGRgY5OTm89957DBgwgNmzZ7N9+3YWLVpEv379vjIBLisr47///a+ZCrSO1l+HzonfdtttJCUl1YiG/xortObixYuUlJR8pX/3m9AjTUxMDPXr1zdHIV0IAcw8sJ54WX+i9S+CtftMNxHpHLUuxJSXl1O/fn2znTQ2NrZKUUa3hYZCIbPdVbes6p5qt9uNYRhcvHixyrbExsaa1xFRVy7NMHLkSD777DOzUUrvr9/vp7S01Jwr6PMKv23U1YUh/TmoK+cq3qzcvFv2LWiR7rrrLpKTk695OdYv6sknn+TPf/4zycnJNGjQgDlz5vDMM8/Qq1cv5syZw+jRozl69CjhcJjMzEw+++wzTp48yfnz59m5cye9e/emsLCQs2fPUlpaisfjwel0cu7cOVq3bs2qVat48MEHadSoEUuWLGHo0KFs3LiRo0eP8sQTTwCX+6H1KVBwedJ36tQpfD4fXbt2Zfbs2fz2t78lNzeXixcvkpaWxvHjxzly5AiRSISXX36ZYcOG8cUXX9C1a1fz0gwJCQkkJCRc8+dkrZbezNT4wooecax/f9dJizXvqkfE3Nxcjh07htfrJS4ujm7duuF2u1m3bp1ZTbznnntITEzk888/Jy8vj6SkJIqKiujSpQtbtmyhQYMGFBcX06RJE9xuN0eOHKFhw4ZcuHCB3r17A7Bp0yZzBO7cuTO33347ZWVlbNiwgfj4eDp37oxhGOzYsQO/309aWho+n48PPvjAPL+xY8eOxMfHs2fPHs6cOUOfPn3wer2cPn0av99PUlJSlZhYH7jfNx6unrO/VqRSeAOx/uzrv3UpWZ85bW0ysvZLaK6WHrvaRR/1BM1a9rbmm/WyrGm/cDhsphWtJXZrXKuvq1F9H24WboTQN/9vyA3E4/FUqfzpsjJgFlz082632yyqWDMlV7t6k3WZgFmytkqpn68+YdNFF4fDUSW+tlY79bL0sq0VSGvq7VbAFmm764VVRi2hdRTUF26xNhVpKa1pQy2XLqDA/8fq+kDRDUj6dVpA3aOhU3yAWcbWE0KdcrNu29eV3av3mtgdGaGroStu1l4IjR5JdbFC//TrkVvLXT3sqD56Vr/Ul36NjtEBs+NNH1x6GdYwx9rZZy18VD+Z4FapEoIIbWJtCvq6XOs3Ne58UwZAF1mqrweqyma9b33N1Zatl6ef+6ZmrFuJW2+PBVsjQgu2QoQWbIUILdgKEVqwFSK0YCtEaMFWiNCCrRChBVshQgu2QoQWbIUILdgKEVqwFSK0YCtEaMFWiNCCrRChBVshQgu2QoQWbIUILdgKEVqwFTfkrO8bccUcQQAZoQWbIUILtkKEFmyFCC3YChFasBUitGArRGjBVojQgq0QoQVbIUILtkKEFmyFCC3YChFasBUitGArRGjBVojQgq0QoQVbIUILtkKEFmyFCC3YChFasBUitGArRGjBVojQgq0QoQVbIUILtkKEFmyFCC3YChFasBUitGArRGjBVojQgq0QoQVbIUILtkKEFmyFCC3YChFasBUitGArRGjBVojQgq0QoQVbIUILtkKEFmyFCC3YChFasBUitGArRGjBVojQgq0QoQVbIUILtkKEFmzF/wHPfcoFDEmIFgAAAABJRU5ErkJggg==';
+})();
+</script>
 <script>
 // ════════════════════════════════════════════════════════
 //  SHARED CONSTANTS & UTILITIES
@@ -1213,7 +1188,7 @@ function goTo(page) {
   document.getElementById('page-'+page).classList.add('active');
   document.getElementById('topbar').classList.remove('hidden');
 
-  const titles = { audit:'Property Audit', snag:'Snag Log', 'audit-dash':'Audit Dashboard', 'snag-dash':'Snag Dashboard' };
+  const titles = { audit:'Property Audit', snag:'Snag Log', 'audit-dash':'Property Dashboard' };
   document.getElementById('topbarTitle').textContent = titles[page] || page;
   currentPage = page;
 
@@ -1243,8 +1218,7 @@ function goTo(page) {
 
   if(page === 'audit') { renderAuditPage(); }
   if(page === 'snag') { renderSnagPage(); }
-  if(page === 'audit-dash') { renderAuditDashboard(); }
-  if(page === 'snag-dash') { renderSnagDash(); }
+  if(page === 'audit-dash') { renderPropSelectorAndDash(); }
 }
 
 function goHome() {
@@ -1754,19 +1728,27 @@ function renderSnagList() {
     const propName=PROPERTIES.find(p=>p.code===s.property)?.name||s.property||'—';
     const title=s.title||(s.notes?s.notes.slice(0,60):'Untitled snag');
     const card=document.createElement('div'); card.className='snag-card'; card.onclick=()=>openSnagDetail(s.id);
-    const thumbHtml=s.photos&&s.photos.length
-      ?`<div class="snag-card-thumb"><img src="${s.photos[0]}" alt=""></div>`
-      :`<div class="snag-card-thumb" style="width:64px;"><div class="no-photo" style="padding:20px;font-size:22px;">${cat.icon}</div></div>`;
-    card.innerHTML=`${thumbHtml}
-      <div class="snag-card-body">
-        <div class="snag-card-title">${escapeHtml(title)}</div>
-        <div class="snag-card-meta">${escapeHtml(propName)}${s.location?' · '+escapeHtml(s.location):''} · ${formatDate(s.createdAt)}</div>
-        <div class="snag-card-badges">
-          <span class="badge badge-${s.priority}">${PRIORITIES[s.priority]}</span>
-          <span class="badge badge-cat">${cat.label}</span>
-          ${s.status==='resolved'?'<span class="badge" style="background:var(--forest-dim);color:var(--forest);border:1px solid var(--forest);">Resolved</span>':''}
-        </div>
+    // Build thumb via DOM (not innerHTML) so base64 src isn't stripped
+    const thumbDiv=document.createElement('div'); thumbDiv.className='snag-card-thumb';
+    if(s.photos&&s.photos.length){
+      const img=document.createElement('img'); img.src=s.photos[0]; img.alt='';
+      thumbDiv.appendChild(img);
+    } else {
+      thumbDiv.style.width='64px';
+      const ic=document.createElement('div'); ic.className='no-photo'; ic.style.cssText='padding:20px;font-size:22px;'; ic.textContent=cat.icon;
+      thumbDiv.appendChild(ic);
+    }
+    card.appendChild(thumbDiv);
+    const bodyDiv=document.createElement('div'); bodyDiv.className='snag-card-body';
+    bodyDiv.innerHTML=`
+      <div class="snag-card-title">${escapeHtml(title)}</div>
+      <div class="snag-card-meta">${escapeHtml(propName)}${s.location?' · '+escapeHtml(s.location):''} · ${formatDate(s.createdAt)}</div>
+      <div class="snag-card-badges">
+        <span class="badge badge-${s.priority}">${PRIORITIES[s.priority]}</span>
+        <span class="badge badge-cat">${cat.label}</span>
+        ${s.status==='resolved'?'<span class="badge" style="background:var(--forest-dim);color:var(--forest);border:1px solid var(--forest);">Resolved</span>':''}
       </div>`;
+    card.appendChild(bodyDiv);
     list.appendChild(card);
   });
 }
@@ -1886,16 +1868,14 @@ function openSnagDetail(id) {
   const bg=document.getElementById('snagDetailBg');
   const cat=CATEGORIES[s.cat]||CATEGORIES.other;
   const propName=PROPERTIES.find(p=>p.code===s.property)?.name||s.property||'—';
-  const photosHtml=s.photos&&s.photos.length
-    ?`<div class="detail-photo-strip">${s.photos.map(src=>`<img class="detail-photo" src="${src}">`).join('')}</div>`
-    :`<div class="detail-no-photo"><span style="font-size:36px">${cat.icon}</span><span style="font-size:12px;color:var(--muted)">No photos</span></div>`;
+  // Use innerHTML for non-photo content, then inject photos via DOM
   bg.innerHTML=`
     <div class="panel-topbar">
       <button class="panel-cancel" onclick="closeSnagDetail()">← Back</button>
       <div class="panel-title">${escapeHtml(s.title||cat.label)}</div>
       <button class="panel-cancel" onclick="openNewSnag('${s.id}')">Edit</button>
     </div>
-    ${photosHtml}
+    <div id="detailPhotoSlot"></div>
     <div class="detail-body">
       <div class="detail-title">${escapeHtml(s.title||(s.notes?s.notes.slice(0,60):'Untitled snag'))}</div>
       <div class="detail-meta">${escapeHtml(propName)}${s.location?' · '+escapeHtml(s.location):''} · ${formatDate(s.createdAt)} · <span class="badge badge-${s.priority}" style="display:inline-block;">${PRIORITIES[s.priority]}</span></div>
@@ -1907,31 +1887,44 @@ function openSnagDetail(id) {
         <button class="det-btn delete" onclick="deleteSnag('${s.id}')">Delete</button>
       </div>
     </div>`;
+  // Inject photos via DOM after innerHTML set (preserves base64 data URIs)
+  const slot = bg.querySelector('#detailPhotoSlot');
+  if(s.photos && s.photos.length) {
+    const strip = document.createElement('div'); strip.className='detail-photo-strip';
+    s.photos.forEach(src => {
+      const img = document.createElement('img'); img.className='detail-photo'; img.src=src; img.alt='';
+      strip.appendChild(img);
+    });
+    slot.appendChild(strip);
+  } else {
+    slot.innerHTML=`<div class="detail-no-photo"><span style="font-size:36px">${cat.icon}</span><span style="font-size:12px;color:var(--muted)">No photos</span></div>`;
+  }
   panel.classList.add('open');
 }
 function closeSnagDetail() { document.getElementById('snagDetailPanel').classList.remove('open'); }
 function resolveSnag(id) {
   const s=snags.find(x=>x.id===id); if(!s) return;
   s.status='resolved'; s.resolvedAt=new Date().toISOString(); saveSnags();
-  closeSnagDetail(); renderSnagPage(); renderSnagDash(); toast('Resolved ✓');
+  closeSnagDetail(); renderSnagPage(); if(currentPage==='audit-dash') renderPropDash(); toast('Resolved ✓');
 }
 function unresolveSnag(id) {
   const s=snags.find(x=>x.id===id); if(!s) return;
   s.status='open'; delete s.resolvedAt; saveSnags();
-  closeSnagDetail(); renderSnagPage(); renderSnagDash(); toast('Re-opened');
+  closeSnagDetail(); renderSnagPage(); if(currentPage==='audit-dash') renderPropDash(); toast('Re-opened');
 }
 function deleteSnag(id) {
   if(!confirm('Delete this snag?')) return;
   snags=snags.filter(s=>s.id!==id); saveSnags();
-  closeSnagDetail(); renderSnagPage(); renderSnagDash(); toast('Deleted');
+  closeSnagDetail(); renderSnagPage(); if(currentPage==='audit-dash') renderPropDash(); toast('Deleted');
 }
 
 // ════════════════════════════════════════════════════════
-//  AUDIT DASHBOARD
+//  UNIFIED PROPERTY DASHBOARD
 // ════════════════════════════════════════════════════════
-let hiddenTrends=new Set();
-let backlogFilter='all';
-let matrixSection=null;
+let selectedProperty = null;
+let hiddenTrends = new Set();
+let backlogFilter = 'all';
+let matrixSection = null;
 
 function propertyLabel(code) {
   return PROPERTIES.find(p=>p.code===code)?.name||code;
@@ -1951,309 +1944,243 @@ function latestByProperty() {
   return map;
 }
 
-function renderAuditDashboard() {
-  const empty=document.getElementById('auditDashEmpty');
-  const full=document.getElementById('auditDashFull');
-  if(archive.length===0){ empty.classList.remove('hidden'); full.style.display='none'; return; }
-  empty.classList.add('hidden'); full.style.display='';
-  renderDashSummary();
-  renderStandings();
-  renderTrends();
-  renderHeatmap();
-  renderCriticals();
-  renderBacklog();
-  renderMatrix();
-  renderStrategy();
+function renderPropSelectorAndDash() {
+  // Always show all 16 properties; highlight which have data
+  const auditProps = new Set(archive.map(a=>a.meta?.property).filter(Boolean));
+  const snagProps = new Set(snags.map(s=>s.property).filter(Boolean));
+  const hasData = new Set([...auditProps, ...snagProps]);
+
+  const row = document.getElementById('propSelectorRow');
+  row.innerHTML = '';
+
+  // Auto-select first property with data, or first property overall
+  if(!selectedProperty) {
+    selectedProperty = hasData.size > 0 ? [...hasData][0] : PROPERTIES[0].code;
+  }
+
+  PROPERTIES.forEach(p => {
+    const btn = document.createElement('button');
+    const active = selectedProperty === p.code;
+    const hasInfo = hasData.has(p.code);
+    btn.className = 'matrix-prop-chip' + (active ? ' active' : '');
+    btn.style.opacity = hasInfo ? '1' : '0.45';
+    btn.textContent = p.code;
+    btn.title = p.name + (hasInfo ? '' : ' — no data yet');
+    btn.onclick = () => { selectedProperty = p.code; renderPropSelectorAndDash(); };
+    row.appendChild(btn);
+  });
+
+  // Always show content (even if no data — it will show empty state per section)
+  document.getElementById('propDashEmpty').classList.add('hidden');
+  document.getElementById('propDashContent').classList.remove('hidden');
+  renderPropDash();
 }
 
-function renderDashSummary() {
-  const latest=latestByProperty();
-  const propCount=Object.keys(latest).length;
-  document.getElementById('ds-props').textContent=propCount;
-  document.getElementById('ds-audits').textContent=archive.length;
-  let sum=0,n=0,critTotal=0,actionTotal=0;
-  Object.values(latest).forEach(a=>{
-    const r=computeAuditOverall(a);
-    if(r.overall!==null){sum+=r.overall;n++;}
-    critTotal+=r.criticalMisses;
-  });
-  Object.values(latest).forEach(a=>{
-    SCHEMA.forEach(sec=>{
-      sec.items.forEach((it,i)=>{
-        const s=((a.sections||{})[sec.id]||{}).scores;
-        if(s&&s[i]!==null&&s[i]!=='NA'&&+s[i]<=2) actionTotal++;
-      });
-    });
-  });
-  const avg=n>0?sum/n:null;
-  document.getElementById('ds-avg').textContent=avg!==null?avg.toFixed(2):'—';
-  document.getElementById('ds-avg-sub').textContent=avg!==null?verdict(avg):'of 4.00';
-  const critEl=document.getElementById('ds-crit'); if(critEl) critEl.textContent=critTotal;
-  document.getElementById('ds-actions').textContent=actionTotal;
+function renderPropDash() {
+  if(!selectedProperty) return;
+  const prop = selectedProperty;
+
+  // Get latest audit for this property
+  const propAudits = archive.filter(a=>a.meta?.property===prop).sort((a,b)=>(b.meta?.date||'').localeCompare(a.meta?.date||''));
+  const latestAudit = propAudits[0] || null;
+
+  // Get snags for this property
+  const propSnags = snags.filter(s=>s.property===prop);
+  const openSnags = propSnags.filter(s=>s.status!=='resolved');
+  const highSnags = openSnags.filter(s=>s.priority==='high');
+
+  // ── Score Hero ──
+  if(latestAudit) {
+    const r = computeAuditOverall(latestAudit);
+    document.getElementById('propHeroScore').textContent = r.overall!==null ? r.overall.toFixed(2) : '—';
+    document.getElementById('propHeroScore').style.color = r.overall!==null
+      ? (r.overall<2.5?'var(--crimson)':r.overall<3.25?'var(--amber)':'var(--gold)') : 'var(--gold)';
+    document.getElementById('propHeroVerdict').textContent = r.overall!==null
+      ? verdict(r.overall) + ` · ${(r.overall/4*100).toFixed(0)}% of standard` : '';
+    document.getElementById('propHeroMeta').innerHTML = `
+      <strong>${escapeHtml(propertyLabel(prop))}</strong><br>
+      Last audit: ${latestAudit.meta?.date||'—'}<br>
+      Auditor: ${escapeHtml(latestAudit.meta?.auditor||'—')}<br>
+      Visit: ${escapeHtml(latestAudit.meta?.visit||'—')}<br>
+      GM: ${escapeHtml(latestAudit.meta?.gm||'—')}`;
+    document.getElementById('pd-crits').textContent = r.criticalMisses;
+  } else {
+    document.getElementById('propHeroScore').textContent = '—';
+    document.getElementById('propHeroVerdict').textContent = 'No audits archived';
+    document.getElementById('propHeroMeta').innerHTML = `<strong>${escapeHtml(propertyLabel(prop))}</strong><br>No audit data yet`;
+    document.getElementById('pd-crits').textContent = '0';
+  }
+
+  // Mini trend
+  renderPropMiniTrend(propAudits);
+
+  document.getElementById('pd-audits').textContent = propAudits.length;
+  document.getElementById('pd-snags-open').textContent = openSnags.length;
+  document.getElementById('pd-snags-high').textContent = highSnags.length;
+
+  // ── Section Scores ──
+  renderPropSectionScores(latestAudit);
+
+  // ── Action Items ──
+  renderPropActionItems(latestAudit);
+
+  // ── Audit Photos ──
+  renderPropAuditPhotos(latestAudit);
+
+  // ── Snags ──
+  renderPropSnags(propSnags);
 }
 
-function renderStandings() {
-  const latest=latestByProperty();
-  const rows=Object.entries(latest).map(([prop,a])=>{
-    const r=computeAuditOverall(a);
-    return {prop,audit:a,score:r.overall,date:a.meta.date};
-  }).filter(r=>r.score!==null).sort((a,b)=>b.score-a.score);
-  const rl=document.getElementById('rankList'); rl.innerHTML='';
-  rows.forEach((r,i)=>{
-    const cls=r.score<2.5?'low':(r.score<3.25?'med':'high');
-    const pct=(r.score/4*100);
-    const row=document.createElement('div'); row.className='rank-row';
-    row.innerHTML=`
-      <div class="rank-num ${i<3?'top':''}">${String(i+1).padStart(2,'0')}</div>
-      <div class="rank-prop">
-        <div class="code">${r.prop}</div>
-        <div class="name">${escapeHtml(propertyLabel(r.prop))} · last audit ${r.date||'—'}</div>
-      </div>
-      <div class="rank-bar-wrap"><div class="rank-bar ${cls}" style="width:${pct}%"></div></div>
-      <div class="rank-score ${cls}">${r.score.toFixed(2)}</div>`;
-    rl.appendChild(row);
+function renderPropMiniTrend(propAudits) {
+  const svg = document.getElementById('propTrendMini');
+  if(propAudits.length < 2) { svg.innerHTML = '<text x="100" y="35" fill="rgba(255,255,255,0.2)" font-size="11" text-anchor="middle" font-family="Jost">Need 2+ audits</text>'; return; }
+  const sorted = propAudits.slice().sort((a,b)=>(a.meta?.date||'').localeCompare(b.meta?.date||''));
+  const scores = sorted.map(a=>computeAuditOverall(a).overall).filter(s=>s!==null);
+  if(scores.length < 2) return;
+  const W=200, H=60, pad=8;
+  const minS=Math.min(...scores)-0.2, maxS=Math.max(...scores)+0.2;
+  const xScale = i => pad + (i/(scores.length-1))*(W-pad*2);
+  const yScale = s => H-pad - ((s-minS)/(maxS-minS||1))*(H-pad*2);
+  let path='';
+  scores.forEach((s,i)=>{ path+=(i===0?'M':'L')+xScale(i).toFixed(1)+','+yScale(s).toFixed(1); });
+  const color = scores[scores.length-1] >= scores[0] ? 'var(--forest)' : 'var(--crimson)';
+  let html = `<path d="${path}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+  scores.forEach((s,i)=>{
+    html += `<circle cx="${xScale(i).toFixed(1)}" cy="${yScale(s).toFixed(1)}" r="3" fill="${color}"/>`;
+    html += `<text x="${xScale(i).toFixed(1)}" y="${(yScale(s)-6).toFixed(1)}" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="middle" font-family="DM Mono">${s.toFixed(2)}</text>`;
   });
-  const meta=document.getElementById('standingsMeta'); if(meta) meta.textContent=`${rows.length} propert${rows.length===1?'y':'ies'}`;
+  svg.innerHTML = html;
 }
 
-function renderTrends() {
-  const byProp={};
-  archive.forEach(a=>{const p=a.meta.property;if(!p)return;if(!byProp[p])byProp[p]=[];byProp[p].push(a);});
-  Object.values(byProp).forEach(arr=>arr.sort((a,b)=>(a.meta.date||'').localeCompare(b.meta.date||'')));
-  const props=Object.keys(byProp).sort();
-  if(props.length===0) return;
-  const allDates=[...new Set(archive.map(a=>a.meta.date).filter(Boolean))].sort();
-  const W=800,H=340,pad={top:24,right:120,bottom:48,left:44};
-  const innerW=W-pad.left-pad.right,innerH=H-pad.top-pad.bottom;
-  const xPos=date=>{const idx=allDates.indexOf(date);if(allDates.length===1)return pad.left+innerW/2;return pad.left+(idx/(allDates.length-1))*innerW;};
-  const yPos=score=>pad.top+innerH-((score-1)/3)*innerH;
-  let paths='';
-  [1,2,3,4].forEach(v=>{
-    const y=yPos(v);
-    paths+=`<line x1="${pad.left}" x2="${W-pad.right}" y1="${y}" y2="${y}" stroke="rgba(255,255,255,0.1)" stroke-dasharray="${v===4||v===1?'0':'2 3'}" stroke-width="0.8"/>`;
-    paths+=`<text x="${pad.left-8}" y="${y+4}" fill="rgba(255,255,255,0.3)" font-size="10" text-anchor="end" font-family="DM Mono">${v}.0</text>`;
-  });
-  allDates.forEach((d,i)=>{
-    const x=xPos(d);
-    const show=allDates.length<=8||i===0||i===allDates.length-1||i%Math.ceil(allDates.length/6)===0;
-    if(show) paths+=`<text x="${x}" y="${H-pad.bottom+18}" fill="rgba(255,255,255,0.3)" font-size="10" text-anchor="middle" font-family="DM Mono">${d.length>=10?d.slice(5):d}</text>`;
-    paths+=`<line x1="${x}" x2="${x}" y1="${pad.top+innerH}" y2="${pad.top+innerH+4}" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>`;
-  });
-  props.forEach(prop=>{
-    if(hiddenTrends.has(prop)) return;
-    const color=propertyColor(prop);
-    const audits=byProp[prop].filter(a=>computeAuditOverall(a).overall!==null);
-    if(!audits.length) return;
-    const pts=audits.map(a=>({x:xPos(a.meta.date),y:yPos(computeAuditOverall(a).overall),v:computeAuditOverall(a).overall,d:a.meta.date}));
-    const d=pts.map((p,i)=>(i===0?'M':'L')+p.x+','+p.y).join(' ');
-    paths+=`<path d="${d}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" opacity="0.85"/>`;
-    pts.forEach(p=>{ paths+=`<circle cx="${p.x}" cy="${p.y}" r="4" fill="${color}" stroke="rgba(13,13,13,0.8)" stroke-width="1.5"><title>${prop} · ${p.d} · ${p.v.toFixed(2)}</title></circle>`; });
-    const last=pts[pts.length-1];
-    paths+=`<text x="${last.x+8}" y="${last.y+4}" fill="${color}" font-size="11" font-weight="600" font-family="Jost">${prop}</text>`;
-  });
-  document.getElementById('trendSvg').innerHTML=paths;
-  const leg=document.getElementById('trendLegend'); leg.innerHTML='';
-  props.forEach(prop=>{
-    const el=document.createElement('span'); el.className='trend-legend-item'+(hiddenTrends.has(prop)?' muted':'');
-    el.innerHTML=`<span class="trend-legend-dot" style="background:${propertyColor(prop)};"></span>${prop} (${byProp[prop].length})`;
-    el.onclick=()=>{if(hiddenTrends.has(prop))hiddenTrends.delete(prop);else hiddenTrends.add(prop);renderTrends();};
-    leg.appendChild(el);
-  });
-}
-
-function renderHeatmap() {
-  const latest=latestByProperty();
-  const props=Object.keys(latest).sort();
-  const table=document.getElementById('heatmapTable');
-  if(props.length===0){table.innerHTML='<tbody><tr><td style="padding:20px;color:var(--muted);">No data.</td></tr></tbody>';return;}
-  let html='<thead><tr><th class="row-head">Section</th>';
-  props.forEach(p=>html+=`<th>${p}</th>`);
-  html+='</tr></thead><tbody>';
-  SCHEMA.forEach(sec=>{
-    html+=`<tr><td class="row-head">${sec.title}</td>`;
-    props.forEach(p=>{
-      const r=computeAuditSection(latest[p],sec);
-      if(r.score===null){html+=`<td class="hm-na">—</td>`;}
-      else{const bg=heatmapColor(r.score);const txt=r.score>=2.8?'rgba(255,255,255,0.9)':'rgba(255,255,255,0.95)';html+=`<td style="background:${bg};color:${txt};">${r.score.toFixed(1)}</td>`;}
-    });
-    html+='</tr>';
-  });
-  html+='</tbody>';
-  table.innerHTML=html;
-}
-
-function renderCriticals() {
-  const latest=latestByProperty();
-  const rows=Object.entries(latest).map(([prop,a])=>{const o=computeAuditOverall(a);return{prop,date:a.meta.date,crits:o.criticalMisses};}).sort((a,b)=>b.crits-a.crits);
-  const out=document.getElementById('critList'); out.innerHTML='';
-  rows.forEach(r=>{
-    const row=document.createElement('div'); row.className='crit-row';
-    const pills=Array(Math.min(r.crits,12)).fill('<div class="crit-pill"></div>').join('');
-    row.innerHTML=`<div><div class="crit-prop">${r.prop}</div><div class="crit-prop-sub">Last audit ${r.date||'—'}</div></div><div class="crit-count ${r.crits===0?'zero':''}">${r.crits}</div><div class="crit-pills">${pills}${r.crits>12?`<span style="color:var(--muted);font-size:11px;margin-left:4px;">+${r.crits-12}</span>`:''}</div>`;
-    out.appendChild(row);
-  });
-}
-
-function renderBacklog() {
-  const latest=latestByProperty();
-  const items=[];
-  Object.entries(latest).forEach(([prop,a])=>{
-    SCHEMA.forEach(sec=>{
-      sec.items.forEach((it,i)=>{
-        const s=((a.sections||{})[sec.id]||{}).scores;
-        const v=s?s[i]:null;
-        if(v!==null&&v!==undefined&&v!=='NA'&&+v<=2){
-          items.push({prop,section:sec.title,item:it.t,score:+v,critical:!!it.c,date:a.meta.date||''});
-        }
-      });
-    });
-  });
-  items.sort((a,b)=>{if(a.critical&&!b.critical)return -1;if(!a.critical&&b.critical)return 1;return a.score-b.score;});
-
-  const chips=document.getElementById('backlogChips');
-  chips.innerHTML='';
-  const propCounts={all:items.length};
-  items.forEach(it=>{if(!propCounts[it.prop])propCounts[it.prop]=0;propCounts[it.prop]++;});
-  const propKeys=['all',...Object.keys(propCounts).filter(k=>k!=='all').sort()];
-  propKeys.forEach(k=>{
-    if(!propCounts[k]&&k!=='all') return;
-    const btn=document.createElement('button'); btn.className='backlog-chip'+(backlogFilter===k?' active':'');
-    btn.textContent=k==='all'?`All (${items.length})`:`${k} (${propCounts[k]})`;
-    btn.onclick=()=>{backlogFilter=k;renderBacklog();};
-    chips.appendChild(btn);
-  });
-
-  const filtered=backlogFilter==='all'?items:items.filter(it=>it.prop===backlogFilter);
-  const out=document.getElementById('backlogList'); out.innerHTML='';
-  if(filtered.length===0){out.innerHTML='<p style="color:var(--muted);font-size:13px;">No items below standard.</p>';return;}
-  filtered.slice(0,40).forEach(it=>{
-    const div=document.createElement('div');
-    div.className='backlog-item '+(it.score<=1?'danger':'warn');
-    div.innerHTML=`<div class="backlog-item-title">${it.critical?'<span class="critical-flag">Critical</span>':''}${escapeHtml(it.item)}</div><div class="backlog-item-meta">${it.prop} · ${it.section} · Score: ${it.score}/4 · Audited ${it.date||'—'}</div>`;
-    out.appendChild(div);
-  });
-  if(filtered.length>40) {const more=document.createElement('p');more.style.cssText='color:var(--muted);font-size:12px;padding:8px 0;';more.textContent=`+${filtered.length-40} more items`;out.appendChild(more);}
-}
-
-function renderMatrix() {
-  const latest=latestByProperty();
-  const props=Object.keys(latest).sort();
-  const chips=document.getElementById('matrixChips');
-  chips.innerHTML='';
-  ['all',...props].forEach(p=>{
-    const btn=document.createElement('button');
-    btn.className='matrix-prop-chip'+((matrixSection===null&&p==='all')||(matrixSection===p)?' active':'');
-    btn.textContent=p==='all'?'All Properties':p;
-    btn.onclick=()=>{matrixSection=p==='all'?null:p;renderMatrix();};
-    chips.appendChild(btn);
-  });
-  const grid=document.getElementById('matrixGrid'); grid.innerHTML='';
-  const relevantAudits=matrixSection?[latest[matrixSection]]:Object.values(latest);
-  relevantAudits.forEach(a=>{if(!a)return;});
-  const secScores={};
-  SCHEMA.forEach(sec=>{
-    let sum=0,w=0,n=0;
-    relevantAudits.forEach(a=>{if(!a)return;const r=computeAuditSection(a,sec);if(r.score!==null){sum+=r.score;n++;}});
-    secScores[sec.id]=n>0?sum/n:null;
-  });
-  SCHEMA.forEach(sec=>{
-    const s=secScores[sec.id];
-    const cell=document.createElement('div'); cell.className='matrix-cell';
-    cell.innerHTML=`<div class="mc-label">${sec.title}</div><div class="mc-score ${scoreClass(s)}">${s!==null?s.toFixed(2):'—'}</div>`;
+function renderPropSectionScores(latestAudit) {
+  const grid = document.getElementById('propSectionScores');
+  grid.innerHTML = '';
+  SCHEMA.forEach(sec => {
+    const r = latestAudit ? computeAuditSection(latestAudit, sec) : {score:null,criticalMisses:0};
+    const cell = document.createElement('div');
+    cell.className = 'matrix-cell';
+    const cls = scoreClass(r.score);
+    const critBadge = r.criticalMisses > 0 ? `<span style="font-size:9px;color:var(--crimson);display:block;margin-top:2px;">${r.criticalMisses} critical</span>` : '';
+    cell.innerHTML = `<div class="mc-label">${escapeHtml(sec.title)}</div><div class="mc-score ${cls}">${r.score!==null?r.score.toFixed(2):'—'}</div>${critBadge}`;
     grid.appendChild(cell);
   });
 }
 
-function renderStrategy() {
-  const latest=latestByProperty();
-  const rows=[];
-  Object.entries(latest).forEach(([prop,a])=>{
-    SCHEMA.forEach(sec=>{
-      const r=computeAuditSection(a,sec);
-      if(r.score===null||r.score>=3.25) return;
-      let prio='medium';
-      if(r.criticalMisses>0) prio='critical';
-      else if(r.score<2.5) prio='high';
-      rows.push({prop,section:sec.title,score:r.score,criticals:r.criticalMisses,prio,date:a.meta.date});
+function renderPropActionItems(latestAudit) {
+  const out = document.getElementById('propActionItems');
+  if(!latestAudit) { out.innerHTML = '<p style="color:var(--muted);font-size:13px;">No audit data.</p>'; return; }
+  const items = [];
+  SCHEMA.forEach(sec => {
+    sec.items.forEach((it,i) => {
+      const s = ((latestAudit.sections||{})[sec.id]||{}).scores;
+      const v = s ? s[i] : null;
+      if(v!==null && v!==undefined && v!=='NA' && +v<=2) {
+        items.push({section:sec.title, item:it.t, score:+v, critical:!!it.c});
+      }
     });
   });
-  rows.sort((a,b)=>{const o={critical:0,high:1,medium:2,low:3};return o[a.prio]-o[b.prio]||a.score-b.score;});
-  const el=document.getElementById('strategyContent');
-  if(rows.length===0){el.innerHTML='<p style="color:var(--muted);font-size:13px;">No areas below standard across latest audits.</p>';return;}
-  let html='<table class="strategy-table"><thead><tr><th>Property</th><th>Section</th><th>Score</th><th>Criticals</th><th>Priority</th></tr></thead><tbody>';
-  rows.slice(0,30).forEach(r=>{
-    html+=`<tr><td>${r.prop}</td><td>${escapeHtml(r.section)}</td><td class="${scoreClass(r.score)}">${r.score.toFixed(2)}</td><td>${r.criticals}</td><td><span class="prio-badge prio-${r.prio}">${r.prio.charAt(0).toUpperCase()+r.prio.slice(1)}</span></td></tr>`;
+  items.sort((a,b) => { if(a.critical&&!b.critical) return -1; if(!a.critical&&b.critical) return 1; return a.score-b.score; });
+  if(items.length===0) { out.innerHTML = '<p style="color:var(--forest);font-size:13px;">✓ No items below standard in latest audit.</p>'; return; }
+  out.innerHTML = '';
+  items.forEach(it => {
+    const div = document.createElement('div');
+    div.className = 'backlog-item ' + (it.score<=1?'danger':'warn');
+    div.innerHTML = `<div class="backlog-item-title">${it.critical?'<span class="critical-flag">Critical</span>':''}${escapeHtml(it.item)}</div><div class="backlog-item-meta">${escapeHtml(it.section)} · Score: ${it.score}/4</div>`;
+    out.appendChild(div);
   });
-  html+='</tbody></table>';
-  el.innerHTML=html;
 }
 
-// ════════════════════════════════════════════════════════
-//  SNAG DASHBOARD
-// ════════════════════════════════════════════════════════
-function renderSnagDash() {
-  // Update stats
-  const open=snags.filter(s=>s.status!=='resolved');
-  const resolved=snags.filter(s=>s.status==='resolved');
-  const high=open.filter(s=>s.priority==='high');
-  const propSet=new Set(snags.map(s=>s.property).filter(Boolean));
-  document.getElementById('sd-open').textContent=open.length;
-  document.getElementById('sd-high').textContent=high.length;
-  document.getElementById('sd-resolved').textContent=resolved.length;
-  document.getElementById('sd-props').textContent=propSet.size;
+function renderPropAuditPhotos(latestAudit) {
+  const container = document.getElementById('propAuditPhotos');
+  const section = document.getElementById('propAuditPhotosSection');
+  container.innerHTML = '';
+  if(!latestAudit) { section.style.display='none'; return; }
+  let hasPhotos = false;
+  SCHEMA.forEach(sec => {
+    const photos = ((latestAudit.sections||{})[sec.id]||{}).photos||[];
+    photos.forEach(src => {
+      if(!src) return;
+      hasPhotos = true;
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'position:relative;';
+      const img = document.createElement('img');
+      // Set src directly — never via innerHTML — to avoid base64 stripping
+      img.src = src;
+      img.style.cssText = 'width:100px;height:100px;object-fit:cover;border-radius:3px;border:1px solid var(--line2);cursor:pointer;display:block;';
+      img.alt = sec.title;
+      img.title = sec.title;
+      img.onclick = () => { const w=window.open(); w.document.write(`<img src="${src}" style="max-width:100%;max-height:100vh;">`); };
+      const label = document.createElement('div');
+      label.style.cssText = 'font-size:9px;color:var(--muted);text-align:center;margin-top:3px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
+      label.textContent = sec.title;
+      wrap.appendChild(img);
+      wrap.appendChild(label);
+      container.appendChild(wrap);
+    });
+  });
+  section.style.display = hasPhotos ? '' : 'none';
+}
 
-  // Populate property filter
-  const propSel=document.getElementById('sdPropFilter');
-  const curProp=propSel.value;
-  propSel.innerHTML='<option value="">All Properties</option>';
-  [...propSet].sort().forEach(code=>{
-    const name=PROPERTIES.find(p=>p.code===code)?.name||code;
-    const o=document.createElement('option'); o.value=code; o.textContent=name;
-    if(code===curProp) o.selected=true;
-    propSel.appendChild(o);
+function renderPropSnags(propSnags) {
+  const list = document.getElementById('propSnagList');
+  const empty = document.getElementById('propSnagEmpty');
+  list.innerHTML = '';
+
+  const statusFilter = document.getElementById('pdSnagStatus')?.value || '';
+  const prioFilter = document.getElementById('pdSnagPriority')?.value || '';
+
+  let filtered = propSnags;
+  if(statusFilter) filtered = filtered.filter(s => statusFilter==='resolved' ? s.status==='resolved' : s.status!=='resolved');
+  if(prioFilter) filtered = filtered.filter(s => s.priority===prioFilter);
+  filtered = filtered.slice().sort((a,b) => {
+    const po={high:0,med:1,low:2};
+    return (a.status==='resolved'?1:0)-(b.status==='resolved'?1:0) || po[a.priority]-po[b.priority];
   });
 
-  const propFilter=propSel.value;
-  const statusFilter=document.getElementById('sdStatusFilter').value;
-  const prioFilter=document.getElementById('sdPriorityFilter').value;
-
-  let filtered=snags;
-  if(propFilter) filtered=filtered.filter(s=>s.property===propFilter);
-  if(statusFilter) filtered=filtered.filter(s=>statusFilter==='resolved'?s.status==='resolved':s.status!=='resolved');
-  if(prioFilter) filtered=filtered.filter(s=>s.priority===prioFilter);
-  filtered=filtered.slice().sort((a,b)=>{const o={high:0,med:1,low:2};return (a.status==='resolved'?1:0)-(b.status==='resolved'?1:0)||o[a.priority]-o[b.priority];});
-
-  const body=document.getElementById('snagDashBody');
-  const empty=document.getElementById('snagDashEmpty');
-  if(filtered.length===0){ body.innerHTML=''; empty.classList.remove('hidden'); return; }
+  if(filtered.length===0) { empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
-  body.innerHTML='';
-  filtered.forEach(s=>{
-    const cat=CATEGORIES[s.cat]||CATEGORIES.other;
-    const propName=PROPERTIES.find(p=>p.code===s.property)?.name||s.property||'—';
-    const tr=document.createElement('tr');
-    const photoCell=s.photos&&s.photos.length
-      ?`<img class="sd-photo" src="${s.photos[0]}" alt="">`
-      :`<div class="sd-no-photo">${cat.icon}</div>`;
-    tr.innerHTML=`
-      <td>${photoCell}</td>
-      <td><strong>${escapeHtml(s.title||(s.notes?s.notes.slice(0,50):'Untitled'))}</strong>${s.notes&&s.title?`<br><span style="font-size:11px;color:var(--muted);">${escapeHtml(s.notes.slice(0,60))}${s.notes.length>60?'…':''}</span>`:''}${s.location?`<br><span style="font-size:11px;color:var(--muted);">${escapeHtml(s.location)}</span>`:''}</td>
-      <td style="font-size:12px;">${escapeHtml(propName)}</td>
-      <td><span class="badge badge-cat">${cat.label}</span></td>
-      <td><span class="badge badge-${s.priority}">${PRIORITIES[s.priority]}</span></td>
-      <td style="font-size:12px;color:var(--muted);">${formatDate(s.createdAt)}</td>
-      <td>${s.status==='resolved'
-        ?`<span class="resolved-tag">✓ Resolved</span>`
-        :`<button class="resolve-btn" onclick="resolveSnagDash('${s.id}')">Resolve</button>`}</td>`;
-    body.appendChild(tr);
+
+  filtered.forEach(s => {
+    const cat = CATEGORIES[s.cat]||CATEGORIES.other;
+    const title = s.title||(s.notes?s.notes.slice(0,60):'Untitled snag');
+
+    const card = document.createElement('div');
+    card.style.cssText = 'background:var(--bg-card);border:1px solid var(--line2);border-radius:var(--radius);margin-bottom:8px;display:flex;overflow:hidden;cursor:pointer;';
+    card.onclick = () => openSnagDetail(s.id);
+
+    // Photo — set via DOM, not innerHTML, to prevent base64 stripping
+    const thumbWrap = document.createElement('div');
+    thumbWrap.style.cssText = 'width:80px;flex-shrink:0;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;';
+    if(s.photos && s.photos.length) {
+      const img = document.createElement('img');
+      img.src = s.photos[0];
+      img.style.cssText = 'width:80px;height:80px;object-fit:cover;display:block;';
+      img.alt = '';
+      thumbWrap.appendChild(img);
+    } else {
+      thumbWrap.style.fontSize = '24px';
+      thumbWrap.textContent = cat.icon;
+    }
+
+    const body = document.createElement('div');
+    body.style.cssText = 'padding:10px 12px;flex:1;min-width:0;';
+    body.innerHTML = `
+      <div style="font-size:13px;font-weight:500;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(title)}</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:5px;">${s.location?escapeHtml(s.location)+' · ':''}${formatDate(s.createdAt)}</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;">
+        <span class="badge badge-${s.priority}">${PRIORITIES[s.priority]}</span>
+        <span class="badge badge-cat">${cat.label}</span>
+        ${s.status==='resolved'?'<span class="badge" style="background:var(--forest-dim);color:var(--forest);border:1px solid var(--forest);">Resolved</span>':''}
+      </div>`;
+
+    card.appendChild(thumbWrap);
+    card.appendChild(body);
+    list.appendChild(card);
   });
 }
 
-function resolveSnagDash(id) {
-  const s=snags.find(x=>x.id===id); if(!s) return;
-  s.status='resolved'; s.resolvedAt=new Date().toISOString(); saveSnags();
-  renderSnagDash(); renderSnagPage(); toast('Resolved ✓');
-}
+// Keep old function names as aliases so existing sync callbacks work
+function renderAuditDashboard() { renderPropSelectorAndDash(); }
 
 // ════════════════════════════════════════════════════════
 //  SYNC
@@ -2320,7 +2247,7 @@ async function syncAllAudits() {
     const serverTime=pullData.serverTime||new Date().toISOString();
     localStorage.setItem(LAST_AUDIT_SYNC,serverTime);
     appendSyncLog(`✓ Pulled ${pulled} new/updated audit(s).`);
-    if(currentPage==='audit-dash') renderAuditDashboard();
+    if(currentPage==='audit-dash') renderPropDash();
   } catch(err){ appendSyncLog('❌ '+err.message); }
 }
 
@@ -2408,7 +2335,7 @@ async function syncAllSnags() {
     localStorage.setItem(LAST_SNAG_SYNC,pullData.serverTime||new Date().toISOString());
     appendSyncLog(`✓ Pulled ${added} snag(s).`);
     if(currentPage==='snag') renderSnagPage();
-    if(currentPage==='snag-dash') renderSnagDash();
+    if(currentPage==='audit-dash') renderPropDash();
   } catch(err){ appendSyncLog('❌ '+err.message); }
 }
 
